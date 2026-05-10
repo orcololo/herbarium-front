@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAFAFA;
+  --foreground: #1C1B1F;
+  --color-primary: #3D7A52;
+  --color-primary-dark: #234A30;
+  --color-primary-container: #E8F5E9;
+  --color-surface: #FAFAFA;
+  --color-surface-container: #FFFFFF;
+  --color-on-surface: #1C1B1F;
+  --color-on-surface-variant: #49454F;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-fira-sans);
+  --font-mono: var(--font-fira-code);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #DDDDDD; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #BBBBBB; }
+
+/* Shimmer loading */
+.shimmer {
+  background: linear-gradient(90deg, #F5F5F5 25%, #ECEFF1 50%, #F5F5F5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Card hover */
+.card-hover {
+  transition: box-shadow 300ms ease, transform 300ms ease;
+}
+.card-hover:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in  { animation: fadeIn  300ms ease-out; }
+.animate-slide-up { animation: slideUp 300ms ease-out; }
