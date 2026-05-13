@@ -1,0 +1,54 @@
+name: Frontend — Deploy to Coolify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Trigger Coolify Redeploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Coolify deploy
+        id: deploy
+        run: |
+          echo "Triggering Coolify redeploy for frontend (uuid: ${{ secrets.COOLIFY_FRONTEND_UUID }})..."
+
+          response=$(curl -s -w "\n%{http_code}" \
+            -X GET "${{ secrets.COOLIFY_API_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_FRONTEND_UUID }}&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+            -H "Accept: application/json")
+
+          http_code=$(echo "$response" | tail -1)
+          body=$(echo "$response" | head -1)
+
+          echo "HTTP $http_code — $body"
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Coolify deploy trigger failed with HTTP $http_code: $body"
+            exit 1
+          fi
+
+          echo "Deploy triggered successfully."
+
+      - name: Wait and verify frontend responds
+        run: |
+          FRONTEND_URL="${{ secrets.COOLIFY_FRONTEND_PUBLIC_URL }}"
+          MAX_ATTEMPTS=20
+          SLEEP=10
+
+          echo "Waiting for $FRONTEND_URL to return 200..."
+
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            http_code=$(curl -s -o /dev/null -w "%{http_code}" "$FRONTEND_URL" || true)
+            if [ "$http_code" = "200" ]; then
+              echo "✅ Frontend is up (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/$MAX_ATTEMPTS — HTTP $http_code, retrying in ${SLEEP}s..."
+            sleep $SLEEP
+          done
+
+          echo "::error::Frontend health check failed after $MAX_ATTEMPTS attempts"
+          exit 1

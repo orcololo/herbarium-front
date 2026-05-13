@@ -1,9 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import { Search } from 'lucide-react'
 import { api, type CollectionSession } from '@/lib/api'
 import clsx from 'clsx'
+
+type FilterStatus = 'all' | 'active' | 'archived'
 
 const EARTH_PALETTES = [
   'bg-[#E8F5E9] text-[#2D5F3F]',
@@ -36,13 +39,35 @@ export default function SessionsPage() {
   const [error, setError] = useState<string | null>(null)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
+  const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+  const [filter, setFilter] = useState<FilterStatus>('all')
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const LIMIT = 20
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(value)
+      setPage(1)
+    }, 400)
+  }
+
+  const handleFilterChange = (status: FilterStatus) => {
+    setFilter(status)
+    setPage(1)
+  }
 
   const load = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
-      const res = await api.sessions.list({ page, limit: LIMIT })
+      const params: { page: number; limit: number; search?: string; isArchived?: boolean } = { page, limit: LIMIT }
+      if (debouncedSearch) params.search = debouncedSearch
+      if (filter === 'active') params.isArchived = false
+      if (filter === 'archived') params.isArchived = true
+      const res = await api.sessions.list(params)
       setItems(res.data)
       setTotal(res.total)
     } catch {
@@ -50,7 +75,7 @@ export default function SessionsPage() {
     } finally {
       setLoading(false)
     }
-  }, [page])
+  }, [page, debouncedSearch, filter])
 
   useEffect(() => { load() }, [load])
 
@@ -77,6 +102,36 @@ export default function SessionsPage() {
           New Session
         </Link>
       </header>
+
+      {/* Search and Filter */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+        <div className="relative flex-1 w-full sm:max-w-sm">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E9E9E] pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            placeholder="Search by trip name..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-full border border-[#DDDDDD] text-sm text-[#1C1B1F] placeholder:text-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#3D7A52] focus:border-transparent transition-shadow"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          {(['all', 'active', 'archived'] as const).map((status) => (
+            <button
+              key={status}
+              onClick={() => handleFilterChange(status)}
+              className={clsx(
+                'px-4 py-2 rounded-full text-sm font-medium transition-colors',
+                filter === status
+                  ? 'bg-[#E8F5E9] text-[#2D5F3F]'
+                  : 'bg-white text-[#49454F] border border-[#DDDDDD] hover:bg-[#F5F5F5]'
+              )}
+            >
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {error && (
         <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">

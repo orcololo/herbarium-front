@@ -1,6 +1,7 @@
-// Base URL points to the Next.js rewrite proxy in dev (/api/v1 → backend)
-// In production set NEXT_PUBLIC_API_URL to the real backend URL.
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? '/api/v1'
+// All requests go through the Next.js rewrite proxy (/api/v1 → BACKEND_URL).
+// BACKEND_URL is a server-side-only env var configured in next.config.ts.
+// Do NOT set NEXT_PUBLIC_API_URL — direct cross-origin calls break httpOnly cookies.
+const BASE_URL = '/api/v1'
 
 export type PlantCategory =
   | 'trees'
@@ -14,14 +15,15 @@ export type PlantCategory =
 
 export interface AuthTokens {
   accessToken: string
-  refreshToken: string
 }
 
 export interface User {
   id: string
   email: string
   name: string
-  role: string
+  role?: string
+  avatar?: string
+  institution?: string
 }
 
 export interface Species {
@@ -30,12 +32,9 @@ export interface Species {
   commonName?: string
   family?: string
   genus?: string
-  kingdom?: string
-  phylum?: string
-  class?: string
-  order?: string
-  author?: string
-  notes?: string
+  species?: string
+  category?: PlantCategory
+  description?: string
   isActive: boolean
   createdAt: string
   updatedAt: string
@@ -69,6 +68,7 @@ export interface FruitMorphology {
 
 export interface SeedMorphology {
   format?: string
+  color?: string
   size?: string
 }
 
@@ -224,6 +224,8 @@ export interface CreateRegistryPayload {
   family?: string
   genus?: string
   speciesEpithet?: string
+  scientificAuthor?: string
+  taxonStatus?: string
   category?: PlantCategory
   sessionId?: string
   latitude?: number
@@ -237,6 +239,7 @@ export interface CreateRegistryPayload {
   municipality?: string
   morphology?: Morphology
   measurements?: Measurement[]
+  determinations?: Determination[]
   notes?: string
   audioTranscripts?: string[]
   photoMetadata?: PhotoMetadata[]
@@ -281,6 +284,7 @@ export interface CreateSessionPayload {
   teamMembers?: string[]
   shareCode?: string
   sharedWith?: string[]
+  track?: GpsPoint[]
   notes?: string
   isArchived?: boolean
   deviceId?: string
@@ -292,6 +296,7 @@ export interface CreateSpeciesPayload {
   family?: string
   genus?: string
   species?: string
+  category?: PlantCategory
   description?: string
 }
 
@@ -310,31 +315,24 @@ function getAccessToken(): string | null {
   return localStorage.getItem('access_token')
 }
 
-function getRefreshToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('refresh_token')
-}
-
 function storeTokens(tokens: AuthTokens): void {
   localStorage.setItem('access_token', tokens.accessToken)
-  localStorage.setItem('refresh_token', tokens.refreshToken)
 }
 
 function clearTokens(): void {
+  if (typeof window === 'undefined') return
   localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
+  fetch(`${BASE_URL}/auth/revoke`, { method: 'POST', credentials: 'include' }).catch(() => {})
 }
 
 let refreshPromise: Promise<AuthTokens> | null = null
 
 async function doRefresh(): Promise<AuthTokens> {
-  const rt = getRefreshToken()
-  if (!rt) throw new ApiError(401, 'No refresh token')
-
   const res = await fetch(`${BASE_URL}/auth/refresh`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refreshToken: rt }),
+    credentials: 'include',
+    body: JSON.stringify({}),
   })
 
   if (!res.ok) {
@@ -359,9 +357,11 @@ async function request<T>(
   }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers })
+  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers, credentials: 'include' })
 
-  if (res.status === 401 && !_isRetry) {
+  const isAuthEndpoint = ['/auth/login', '/auth/register', '/auth/refresh', '/auth/google', '/auth/logout', '/auth/revoke'].some(p => path.startsWith(p))
+
+  if (res.status === 401 && !_isRetry && !isAuthEndpoint) {
     try {
       if (!refreshPromise) {
         refreshPromise = doRefresh().finally(() => { refreshPromise = null })
@@ -400,32 +400,32 @@ async function request<T>(
 export const api = {
   auth: {
     login: async (email: string, password: string): Promise<AuthTokens & { user: User }> => {
-      const tokens = await request<AuthTokens>('/auth/login', {
+      const result = await request<AuthTokens & { user: User }>('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       })
-      storeTokens(tokens)
-      const user = await request<User>('/users/profile')
-      return { ...tokens, user }
+      storeTokens(result)
+      return result
     },
 
     register: async (name: string, email: string, password: string, institution?: string): Promise<AuthTokens & { user: User }> => {
-      const tokens = await request<AuthTokens>('/auth/register', {
+      const result = await request<AuthTokens & { user: User }>('/auth/register', {
         method: 'POST',
         body: JSON.stringify({ name, email, password, institution }),
       })
-      storeTokens(tokens)
-      const user = await request<User>('/users/profile')
-      return { ...tokens, user }
+      storeTokens(result)
+      return result
     },
 
-    refresh: (refreshToken: string) =>
+    refresh: () =>
       request<AuthTokens>('/auth/refresh', {
         method: 'POST',
-        body: JSON.stringify({ refreshToken }),
+        body: JSON.stringify({}),
       }),
 
     logout: () => request<void>('/auth/logout', { method: 'POST' }),
+
+    revoke: () => request<void>('/auth/revoke', { method: 'POST' }),
 
     me: () => request<User>('/users/profile'),
   },
@@ -467,10 +467,12 @@ export const api = {
   },
 
   sessions: {
-    list: (params?: { page?: number; limit?: number }) => {
+    list: (params?: { page?: number; limit?: number; search?: string; isArchived?: boolean }) => {
       const q = new URLSearchParams()
       if (params?.page)  q.set('page',  String(params.page))
       if (params?.limit) q.set('limit', String(params.limit))
+      if (params?.search) q.set('search', params.search)
+      if (params?.isArchived !== undefined) q.set('isArchived', String(params.isArchived))
       return request<PaginatedResponse<CollectionSession>>(`/sessions?${q.toString()}`)
     },
     get: (id: string) => request<CollectionSession>(`/sessions/${id}`),
@@ -506,5 +508,21 @@ export const api = {
         method: 'PATCH',
         body: JSON.stringify(data),
       }),
+  },
+
+  users: {
+    list: (params?: { page?: number; limit?: number }) => {
+      const q = new URLSearchParams()
+      if (params?.page)  q.set('page',  String(params.page))
+      if (params?.limit) q.set('limit', String(params.limit))
+      return request<PaginatedResponse<User>>(`/users?${q.toString()}`)
+    },
+    get: (id: string) => request<User>(`/users/${id}`),
+    update: (id: string, data: Partial<User>) =>
+      request<User>(`/users/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }),
+    delete: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
   },
 }

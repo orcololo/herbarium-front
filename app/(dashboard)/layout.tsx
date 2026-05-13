@@ -4,7 +4,23 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import { useEffect } from 'react'
+import { Users } from 'lucide-react'
 import clsx from 'clsx'
+
+const NAV_TOP_ITEMS = [
+  {
+    href: '/dashboard',
+    label: 'Dashboard',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+        <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+        <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+        <rect x="11" y="11" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+      </svg>
+    ),
+  },
+]
 
 const NAV_GROUPS = [
   {
@@ -30,6 +46,16 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: '/map',
+        label: 'Map',
+        icon: (
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 7L7.5 5L12.5 7L17 5V15L12.5 17L7.5 15L3 17V7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+            <path d="M7.5 5V15M12.5 7V17" stroke="currentColor" strokeWidth="1.5"/>
+          </svg>
+        ),
+      },
     ]
   },
   {
@@ -44,6 +70,16 @@ const NAV_GROUPS = [
             <path d="M10 3C10 3 7 5 7 7M10 3C10 3 13 5 13 7M10 17C10 17 7 15 7 13M10 17C10 17 13 15 13 13M3 10C3 10 5 7 7 7M17 10C17 10 15 7 13 7M3 10C3 10 5 13 7 13M17 10C17 10 15 13 13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
         ),
+      },
+    ]
+  },
+  {
+    label: 'Administration',
+    items: [
+      {
+        href: '/users',
+        label: 'Users',
+        icon: <Users className="w-5 h-5" />,
       },
     ]
   }
@@ -90,6 +126,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
+          <div className="space-y-1">
+            {NAV_TOP_ITEMS.map(item => {
+              const active = pathname === item.href
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={clsx(
+                    'flex items-center gap-3 px-4 py-2.5 rounded-r-full text-sm font-medium transition-all duration-200 relative',
+                    active
+                      ? 'bg-[#E8F5E9] text-[#2D5F3F]'
+                      : 'text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F]',
+                  )}
+                >
+                  {active && (
+                    <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#3D7A52] rounded-r-full" />
+                  )}
+                  <span className={active ? 'text-[#3D7A52]' : 'text-[#9E9E9E]'}>{item.icon}</span>
+                  {item.label}
+                </Link>
+              )
+            })}
+          </div>
+
           {NAV_GROUPS.map((group, idx) => (
             <div key={idx}>
               <h3 className="px-4 text-[10px] font-bold uppercase tracking-wider text-[#9E9E9E] mb-2">

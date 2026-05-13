@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import { Plus } from 'lucide-react'
 import { api, type Species } from '@/lib/api'
 import clsx from 'clsx'
 
@@ -66,6 +67,13 @@ export default function SpeciesPage() {
             <p className="text-sm text-[#6D4C41] mt-0.5">{total} species recorded</p>
           </div>
         </div>
+        <Link
+          href="/species/new"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:-translate-y-0.5 transition-all duration-200"
+        >
+          <Plus size={16} strokeWidth={2.5} />
+          New Species
+        </Link>
       </header>
 
       <div className="mb-6">
@@ -115,13 +123,10 @@ export default function SpeciesPage() {
                 </div>
                 
                 <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                  {sp.kingdom && (
+                  {sp.category && (
                     <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2D5F3F] border border-[#C8E6C9]">
-                      {sp.kingdom}
+                      {sp.category}
                     </span>
-                  )}
-                  {sp.author && (
-                    <p className="text-[11px] text-[#9E9E9E] italic max-w-[120px] truncate text-right">{sp.author}</p>
                   )}
                 </div>
               </div>

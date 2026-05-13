@@ -22,36 +22,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const token = localStorage.getItem('access_token')
     if (!token) {
+      api.auth.revoke().catch(() => {})
       setState({ user: null, loading: false })
       return
     }
     api.auth.me()
-      .then(user => setState({ user, loading: false }))
+      .then(user => {
+        setState({ user, loading: false })
+      })
       .catch(() => {
         localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
+        api.auth.revoke().catch(() => {})
         setState({ user: null, loading: false })
       })
   }, [])
 
   const login = useCallback(async (email: string, password: string) => {
-    const { accessToken, refreshToken, user } = await api.auth.login(email, password)
+    const { accessToken, user } = await api.auth.login(email, password)
     localStorage.setItem('access_token', accessToken)
-    localStorage.setItem('refresh_token', refreshToken)
     setState({ user, loading: false })
   }, [])
 
   const register = useCallback(async (name: string, email: string, password: string, institution?: string) => {
-    const { accessToken, refreshToken, user } = await api.auth.register(name, email, password, institution)
+    const { accessToken, user } = await api.auth.register(name, email, password, institution)
     localStorage.setItem('access_token', accessToken)
-    localStorage.setItem('refresh_token', refreshToken)
     setState({ user, loading: false })
   }, [])
 
   const logout = useCallback(async () => {
     await api.auth.logout().catch(() => {})
     localStorage.removeItem('access_token')
-    localStorage.removeItem('refresh_token')
+    await api.auth.revoke().catch(() => {})
     setState({ user: null, loading: false })
   }, [])
 
