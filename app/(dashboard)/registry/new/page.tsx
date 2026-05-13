@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { api, type CreateRegistryPayload } from '@/lib/api'
+import { api, type CreateRegistryPayload, type ImageRef } from '@/lib/api'
+import { Upload, X, ImageIcon } from 'lucide-react'
 import clsx from 'clsx'
 
 type FormData = {
@@ -72,6 +73,9 @@ export default function NewSpecimenPage() {
   const [errors, setErrors] = useState<{ registryIdentifier?: string; scientificName?: string }>({})
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+  const [previewUrls, setPreviewUrls] = useState<string[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -79,6 +83,21 @@ export default function NewSpecimenPage() {
     if (errors[name as keyof typeof errors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }))
     }
+  }
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? [])
+    if (files.length === 0) return
+    setSelectedFiles(prev => [...prev, ...files])
+    const newPreviews = files.map(f => URL.createObjectURL(f))
+    setPreviewUrls(prev => [...prev, ...newPreviews])
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const removeFile = (index: number) => {
+    URL.revokeObjectURL(previewUrls[index])
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index))
+    setPreviewUrls(prev => prev.filter((_, i) => i !== index))
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -128,6 +147,23 @@ export default function NewSpecimenPage() {
         ...(form.notes && { notes: form.notes }),
       }
       const created = await api.registry.create(payload)
+
+      // Upload images if any were selected
+      if (selectedFiles.length > 0) {
+        const uploadedImages: ImageRef[] = []
+        for (const file of selectedFiles) {
+          try {
+            const result = await api.upload.image(file)
+            uploadedImages.push(result)
+          } catch {
+            // Continue with other images if one fails
+          }
+        }
+        if (uploadedImages.length > 0) {
+          await api.registry.update(created.id, { images: [...created.images, ...uploadedImages] })
+        }
+      }
+
       router.push(`/registry/${created.id}`)
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Falha ao criar espécime.')
@@ -355,6 +391,46 @@ export default function NewSpecimenPage() {
                 <input type="text" name="determinationQualifier" value={form.determinationQualifier} onChange={handleChange} placeholder='cf., aff., ?' className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
             </div>
+          </div>
+
+          <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <ImageIcon size={16} className="text-[#3D7A52]" />
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Imagens</h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {previewUrls.map((url, index) => (
+                <div key={index} className="relative group aspect-square rounded-[12px] overflow-hidden border border-[#EEEEEE]">
+                  <img src={url} alt={`Imagem ${index + 1}`} className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="absolute top-2 right-2 w-6 h-6 bg-[#E53935] text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="aspect-square rounded-[12px] border-2 border-dashed border-[#DDDDDD] flex flex-col items-center justify-center gap-2 hover:border-[#3D7A52] hover:bg-[#F5FFF7] transition-colors cursor-pointer"
+              >
+                <Upload size={20} className="text-[#9E9E9E]" />
+                <span className="text-[10px] font-medium text-[#9E9E9E] uppercase">Adicionar</span>
+              </button>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            {selectedFiles.length > 0 && (
+              <p className="text-xs text-[#9E9E9E] mt-3">{selectedFiles.length} imagem(ns) selecionada(s) — serão enviadas ao salvar</p>
+            )}
           </div>
 
           <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 md:col-span-2">
