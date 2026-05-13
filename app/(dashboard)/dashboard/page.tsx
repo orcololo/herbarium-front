@@ -20,15 +20,15 @@ interface CategoryCount {
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; bar: string; label: string }> = {
-  trees:    { bg: '#E8F5E9', bar: '#3D7A52', label: 'Trees' },
-  shrubs:   { bg: '#FFF3E0', bar: '#E65100', label: 'Shrubs' },
-  herbs:    { bg: '#E1F5FE', bar: '#0288D1', label: 'Herbs' },
-  ferns:    { bg: '#F3E5F5', bar: '#7B1FA2', label: 'Ferns' },
-  grasses:  { bg: '#F1F8E9', bar: '#558B2F', label: 'Grasses' },
-  vines:    { bg: '#EFEBE9', bar: '#6D4C41', label: 'Vines' },
-  cacti:    { bg: '#FBE9E7', bar: '#BF360C', label: 'Cacti' },
-  aquatic:  { bg: '#E0F7FA', bar: '#00838F', label: 'Aquatic' },
-  uncategorized: { bg: '#F5F5F5', bar: '#9E9E9E', label: 'Uncategorized' },
+  trees:    { bg: '#E8F5E9', bar: '#3D7A52', label: 'Árvores' },
+  shrubs:   { bg: '#FFF3E0', bar: '#E65100', label: 'Arbustos' },
+  herbs:    { bg: '#E1F5FE', bar: '#0288D1', label: 'Ervas' },
+  ferns:    { bg: '#F3E5F5', bar: '#7B1FA2', label: 'Samambaias' },
+  grasses:  { bg: '#F1F8E9', bar: '#558B2F', label: 'Gramíneas' },
+  vines:    { bg: '#EFEBE9', bar: '#6D4C41', label: 'Trepadeiras' },
+  cacti:    { bg: '#FBE9E7', bar: '#BF360C', label: 'Cactos' },
+  aquatic:  { bg: '#E0F7FA', bar: '#00838F', label: 'Aquáticas' },
+  uncategorized: { bg: '#F5F5F5', bar: '#9E9E9E', label: 'Sem categoria' },
 }
 
 function StatCardSkeleton() {
@@ -126,7 +126,7 @@ export default function DashboardPage() {
 
         setCategories(categoryData)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load dashboard data')
+        setError(err instanceof Error ? err.message : 'Falha ao carregar dados do painel')
       }
     }
 
@@ -137,11 +137,11 @@ export default function DashboardPage() {
     if (typeof entry.species === 'object' && entry.species) {
       return entry.species.scientificName
     }
-    return 'Unknown species'
+    return 'Espécie desconhecida'
   }
 
   function formatDate(dateStr: string): string {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+    return new Date(dateStr).toLocaleDateString('pt-BR', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -156,7 +156,7 @@ export default function DashboardPage() {
           onClick={() => window.location.reload()}
           className="px-4 py-2 bg-[#3D7A52] text-white rounded-full text-sm font-medium hover:bg-[#2D5F3F] transition-colors"
         >
-          Retry
+          Tentar novamente
         </button>
       </div>
     )
@@ -167,8 +167,8 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-[#1C1B1F]">Dashboard</h1>
-        <p className="text-sm text-[#49454F] mt-1">Overview of your botanical collections</p>
+        <h1 className="text-2xl font-bold text-[#1C1B1F]">Painel</h1>
+        <p className="text-sm text-[#49454F] mt-1">Visão geral das suas coleções botânicas</p>
       </div>
 
       {/* Stat Cards */}
@@ -180,7 +180,7 @@ export default function DashboardPage() {
             <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Specimens</p>
+                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Espécimes</p>
                   <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{stats.totalSpecimens}</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#E8F5E9] flex items-center justify-center">
@@ -191,7 +191,7 @@ export default function DashboardPage() {
             <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Species</p>
+                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Espécies</p>
                   <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{stats.totalSpecies}</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#E1F5FE] flex items-center justify-center">
@@ -202,7 +202,7 @@ export default function DashboardPage() {
             <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Sessions</p>
+                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Sessões</p>
                   <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{stats.activeSessions}</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#EFEBE9] flex items-center justify-center">
@@ -213,7 +213,7 @@ export default function DashboardPage() {
             <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Drafts</p>
+                  <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Rascunhos</p>
                   <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{stats.draftRecords}</p>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-[#FFF3E0] flex items-center justify-center">
@@ -233,7 +233,7 @@ export default function DashboardPage() {
         ) : (
           <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-base font-semibold text-[#1C1B1F]">Recent Activity</h2>
+              <h2 className="text-base font-semibold text-[#1C1B1F]">Atividade Recente</h2>
               <Link
                 href="/registry"
                 className="text-xs font-medium text-[#3D7A52] hover:underline"

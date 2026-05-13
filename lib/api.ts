@@ -94,6 +94,8 @@ export interface ImageRef {
   thumbnailUrl: string
 }
 
+export type UploadResult = ImageRef
+
 export interface PhotoMetadata {
   exifDataJson?: string
   dateTaken?: string
@@ -524,5 +526,28 @@ export const api = {
         body: JSON.stringify(data),
       }),
     delete: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
+  },
+
+  upload: {
+    image: async (file: File): Promise<UploadResult> => {
+      const token = getAccessToken()
+      const formData = new FormData()
+      formData.append('file', file)
+      const headers: Record<string, string> = {}
+      if (token) headers['Authorization'] = `Bearer ${token}`
+      const res = await fetch(`${BASE_URL}/upload/image`, {
+        method: 'POST',
+        headers,
+        credentials: 'include',
+        body: formData,
+      })
+      if (!res.ok) {
+        let message = res.statusText
+        try { const body = await res.json(); message = body.message ?? message } catch {}
+        throw new ApiError(res.status, message)
+      }
+      const envelope = await res.json()
+      return envelope.success ? envelope.data : envelope
+    },
   },
 }

@@ -10,7 +10,7 @@ import clsx from 'clsx'
 const NAV_TOP_ITEMS = [
   {
     href: '/dashboard',
-    label: 'Dashboard',
+    label: 'Painel',
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
@@ -24,11 +24,11 @@ const NAV_TOP_ITEMS = [
 
 const NAV_GROUPS = [
   {
-    label: 'Collections',
+    label: 'Coleções',
     items: [
       {
         href: '/registry',
-        label: 'Registry',
+        label: 'Registros',
         icon: (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M10 2C10 2 4 5.5 4 11.5C4 14.536 6.686 17 10 17C13.314 17 16 14.536 16 11.5C16 5.5 10 2 10 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -38,7 +38,7 @@ const NAV_GROUPS = [
       },
       {
         href: '/sessions',
-        label: 'Sessions',
+        label: 'Sessões',
         icon: (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" strokeWidth="1.5"/>
@@ -48,7 +48,7 @@ const NAV_GROUPS = [
       },
       {
         href: '/map',
-        label: 'Map',
+        label: 'Mapa',
         icon: (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M3 7L7.5 5L12.5 7L17 5V15L12.5 17L7.5 15L3 17V7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
@@ -59,11 +59,11 @@ const NAV_GROUPS = [
     ]
   },
   {
-    label: 'Taxonomy',
+    label: 'Taxonomia',
     items: [
       {
         href: '/species',
-        label: 'Species',
+        label: 'Espécies',
         icon: (
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <circle cx="10" cy="10" r="3" stroke="currentColor" strokeWidth="1.5"/>
@@ -74,11 +74,11 @@ const NAV_GROUPS = [
     ]
   },
   {
-    label: 'Administration',
+    label: 'Administração',
     items: [
       {
         href: '/users',
-        label: 'Users',
+        label: 'Usuários',
         icon: <Users className="w-5 h-5" />,
       },
     ]
@@ -199,7 +199,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
               <path d="M6 14H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h3M11 11l3-3-3-3M14 8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Sign out
+            Sair
           </button>
         </div>
       </aside>

@@ -16,8 +16,8 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Folium — Field Book",
-  description: "Botanical field collection manager",
+  title: "Folium — Caderneta de Campo",
+  description: "Gerenciador de coleções botânicas de campo",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       className={`${firaSans.variable} ${firaCode.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#FAFAFA] text-[#1C1B1F] font-sans">

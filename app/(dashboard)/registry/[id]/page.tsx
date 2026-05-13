@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import {
   api,
@@ -11,9 +11,11 @@ import {
   type FlowerMorphology,
   type FruitMorphology,
   type SeedMorphology,
+  type ImageRef,
 } from '@/lib/api'
 import Link from 'next/link'
 import clsx from 'clsx'
+import { Upload, X, Image as ImageIcon } from 'lucide-react'
 
 const STATUS_COLORS: Record<string, string> = {
   synced: 'bg-[#E8F5E9] text-[#2D5F3F]',
@@ -109,6 +111,8 @@ export default function RegistryDetailPage() {
   const [error, setError] = useState<string | null>(null)
   const [editing, setEditing] = useState(false)
   const [formData, setFormData] = useState<Partial<Registry>>({})
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     api.registry.get(id)
@@ -240,6 +244,44 @@ export default function RegistryDetailPage() {
     if (!confirm('Archive this specimen? It will be marked inactive.')) return
     await api.registry.update(id, { isActive: false })
     router.replace('/registry')
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file || !item) return
+    setUploading(true)
+    setError(null)
+    try {
+      const result = await api.upload.image(file)
+      const newImage: ImageRef = {
+        key: result.key,
+        url: result.url,
+        thumbnailKey: result.thumbnailKey,
+        thumbnailUrl: result.thumbnailUrl,
+      }
+      const updated = await api.registry.update(id, {
+        images: [...(item.images ?? []), newImage],
+      })
+      setItem(updated)
+    } catch {
+      setError('Failed to upload image.')
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  async function handleImageDelete(imageKey: string) {
+    if (!item) return
+    setError(null)
+    try {
+      const updated = await api.registry.update(id, {
+        images: item.images.filter(img => img.key !== imageKey),
+      })
+      setItem(updated)
+    } catch {
+      setError('Failed to remove image.')
+    }
   }
 
   if (loading) {
@@ -473,6 +515,59 @@ export default function RegistryDetailPage() {
               {item.notes || <span className="text-[#AAAAAA] italic">No notes recorded for this specimen.</span>}
             </p>
           )}
+        </div>
+
+        <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 border border-transparent hover:border-[#EEEEEE] transition-colors md:col-span-2">
+          <div className="flex items-center gap-2 mb-5">
+            <ImageIcon size={16} className="text-[#3D7A52]" />
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Images</h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {(item.images ?? []).map(img => (
+              <div key={img.key} className="relative group rounded-[8px] overflow-hidden aspect-square bg-[#F5F5F5]">
+                <img
+                  src={img.thumbnailUrl || img.url}
+                  alt="Specimen"
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  onClick={() => handleImageDelete(img.key)}
+                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-white/90 text-[#E53935] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                  aria-label="Remove image"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="border-2 border-dashed border-[#DDDDDD] rounded-[16px] flex flex-col items-center justify-center aspect-square hover:border-[#3D7A52] transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {uploading ? (
+                <svg className="animate-spin h-6 w-6 text-[#3D7A52]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : (
+                <>
+                  <Upload size={20} className="text-[#9E9E9E] mb-1" />
+                  <span className="text-[10px] font-medium text-[#9E9E9E]">Upload</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
         </div>
       </div>
 
