@@ -54,13 +54,13 @@ export default function SessionDetailPage() {
   useEffect(() => {
     api.sessions.get(id)
       .then(setSession)
-      .catch(() => setError('Failed to load session.'))
+      .catch(() => setError('Falha ao carregar sessão.'))
       .finally(() => setLoading(false))
   }, [id])
 
   const handleSave = async () => {
     if (!formData.tripName.trim()) {
-      setSaveError('Trip name is required')
+      setSaveError('Nome da expedição é obrigatório')
       return
     }
     setSaving(true)
@@ -78,7 +78,7 @@ export default function SessionDetailPage() {
       setSession(updated)
       setEditing(false)
     } catch (err) {
-      setSaveError('Failed to save changes')
+      setSaveError('Falha ao salvar alterações')
     } finally {
       setSaving(false)
     }
@@ -129,10 +129,10 @@ export default function SessionDetailPage() {
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
         </div>
-        <p className="text-lg font-medium text-[#1C1B1F]">{error ?? 'Session not found'}</p>
+        <p className="text-lg font-medium text-[#1C1B1F]">{error ?? 'Sessão não encontrada'}</p>
         <Link href="/sessions" className="inline-flex items-center gap-2 px-4 py-2 mt-6 rounded-full bg-white border border-[#EEEEEE] text-sm font-medium text-[#49454F] hover:bg-[#F5F5F5] transition-colors">
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M12 15L7 10L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          Back to Sessions
+          Voltar para Sessões
         </Link>
       </div>
     )
@@ -159,7 +159,7 @@ export default function SessionDetailPage() {
           {session.isArchived && (
             <div className="absolute top-4 right-4">
               <span className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-sm text-[#9E9E9E] shadow-sm">
-                Archived
+                Arquivada
               </span>
             </div>
           )}
@@ -189,8 +189,8 @@ export default function SessionDetailPage() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                   </svg>
-                  Edit
-                </button>
+                  Editar
+193	                </button>
               )}
             </div>
             <div className="flex items-center gap-2 mt-1.5 text-sm text-[#6D4C41]">
@@ -210,7 +210,7 @@ export default function SessionDetailPage() {
               <path d="M12 21C12 21 5 14.5 5 9C5 5.13401 8.13401 2 12 2C15.866 2 19 5.13401 19 9C19 14.5 12 21 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <circle cx="12" cy="9" r="3" stroke="currentColor" strokeWidth="2"/>
             </svg>
-            View Specimens
+            Ver Espécimes
           </Link>
         </div>
       </div>
@@ -223,14 +223,14 @@ export default function SessionDetailPage() {
             disabled={saving}
             className="px-5 py-2 rounded-full bg-white border border-[#EEEEEE] text-[#49454F] text-xs font-medium hover:bg-[#F5F5F5] transition-colors"
           >
-            Cancel
+            Cancelar
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
             className="px-5 py-2 rounded-full bg-[#3D7A52] text-white text-xs font-medium hover:bg-[#2D5F3F] transition-colors disabled:opacity-60"
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? 'Salvando...' : 'Salvar Alterações'}
           </button>
         </div>
       )}
@@ -242,24 +242,24 @@ export default function SessionDetailPage() {
               <path d="M12 21C12 21 5 14.5 5 9C5 5.13401 8.13401 2 12 2C15.866 2 19 5.13401 19 9C19 14.5 12 21 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <circle cx="12" cy="9" r="3" stroke="currentColor" strokeWidth="2"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Trip Details</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Detalhes da Expedição</h2>
           </div>
           
           {editing ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Trip Name *</label>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Nome da Expedição *</label>
                 <input
                   type="text"
                   value={formData.tripName}
                   onChange={e => setFormData(prev => ({ ...prev, tripName: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
-                  placeholder="Trip Name"
+                  placeholder="Nome da Expedição"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Start Date</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Data Início</label>
                   <input
                     type="date"
                     value={formData.startDate}
@@ -268,7 +268,7 @@ export default function SessionDetailPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">End Date</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Data Fim</label>
                   <input
                     type="date"
                     value={formData.endDate}
@@ -278,13 +278,13 @@ export default function SessionDetailPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Location</label>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Localidade</label>
                 <input
                   type="text"
                   value={formData.location}
                   onChange={e => setFormData(prev => ({ ...prev, location: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
-                  placeholder="Location"
+                  placeholder="Localidade"
                 />
               </div>
               <div>
@@ -295,18 +295,18 @@ export default function SessionDetailPage() {
                     onChange={e => setFormData(prev => ({ ...prev, isArchived: e.target.checked }))}
                     className="w-4 h-4 text-[#3D7A52] rounded border-gray-300 focus:ring-[#3D7A52]"
                   />
-                  <span className="text-sm font-medium text-[#1C1B1F]">Archived</span>
+                  <span className="text-sm font-medium text-[#1C1B1F]">Arquivada</span>
                 </label>
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Share Code</label>
-                <p className="text-sm text-[#1C1B1F] font-medium px-4 py-2.5 bg-[#F5F5F5] rounded-[12px] opacity-70">{session.shareCode || 'None'}</p>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Código de Compartilhamento</label>
+                <p className="text-sm text-[#1C1B1F] font-medium px-4 py-2.5 bg-[#F5F5F5] rounded-[12px] opacity-70">{session.shareCode || 'Nenhum'}</p>
               </div>
             </div>
           ) : (
             <div className="space-y-1">
-              <Field label="Location" value={session.location} />
-              <Field label="Share Code" value={session.shareCode} />
+              <Field label="Localidade" value={session.location} />
+              <Field label="Código de Compartilhamento" value={session.shareCode} />
             </div>
           )}
         </div>
@@ -319,7 +319,7 @@ export default function SessionDetailPage() {
                 <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M23 21V19C23 17.1432 21.733 15.5824 20 15.13M16 3.13C17.733 3.5824 19 5.14318 19 7C19 8.85682 17.733 10.4176 16 10.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Team Members</h2>
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Membros da Equipe</h2>
             </div>
             
             {editing ? (
@@ -340,7 +340,7 @@ export default function SessionDetailPage() {
                     </span>
                   ))}
                   {formData.teamMembers.length === 0 && (
-                    <span className="text-sm text-[#9E9E9E] italic">No team members</span>
+                    <span className="text-sm text-[#9E9E9E] italic">Nenhum membro na equipe</span>
                   )}
                 </div>
                 <div className="flex gap-2">
@@ -355,13 +355,13 @@ export default function SessionDetailPage() {
                       }
                     }}
                     className="flex-1 px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
-                    placeholder="Add member name..."
+                    placeholder="Nome do membro..."
                   />
                   <button
                     onClick={handleAddMember}
                     className="px-5 py-2 rounded-[12px] bg-[#3D7A52] text-white text-xs font-medium hover:bg-[#2D5F3F] transition-colors"
                   >
-                    Add
+                    Adicionar
                   </button>
                 </div>
               </div>

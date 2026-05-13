@@ -154,11 +154,11 @@ export default function MapPage() {
             ${specimen.scientificName}
           </p>
           <p style="margin:0 0 2px;font-size:12px;color:#555;">
-            Collector: ${specimen.collector}
+            Coletor: ${specimen.collector}
           </p>
-          ${specimen.dateCollected ? `<p style="margin:0 0 6px;font-size:12px;color:#555;">Date: ${new Date(specimen.dateCollected).toLocaleDateString()}</p>` : ''}
+          ${specimen.dateCollected ? `<p style="margin:0 0 6px;font-size:12px;color:#555;">Data: ${new Date(specimen.dateCollected).toLocaleDateString()}</p>` : ''}
           <a href="/registry/${specimen.id}" style="font-size:12px;color:#3D7A52;text-decoration:underline;">
-            View details
+            Ver detalhes
           </a>
         </div>
       `
@@ -206,10 +206,10 @@ export default function MapPage() {
             <path d="M3 7L7.5 5L12.5 7L17 5V15L12.5 17L7.5 15L3 17V7Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
             <path d="M7.5 5V15M12.5 7V17" stroke="currentColor" strokeWidth="1.5"/>
           </svg>
-          <h1 className="text-lg font-semibold text-[#1C1B1F]">Map</h1>
+          <h1 className="text-lg font-semibold text-[#1C1B1F]">Mapa</h1>
         </div>
         <span className="text-sm text-[#6D6D6D]">
-          {loading ? 'Loading...' : `${specimens.length} specimen${specimens.length !== 1 ? 's' : ''} with coordinates`}
+          {loading ? 'Carregando...' : `${specimens.length} espécime${specimens.length !== 1 ? 's' : ''} com coordenadas`}
         </span>
       </div>
 
@@ -218,7 +218,7 @@ export default function MapPage() {
           <div className="absolute inset-0 z-10 bg-[#F5F5F5] animate-pulse flex items-center justify-center">
             <div className="flex flex-col items-center gap-3">
               <div className="w-10 h-10 rounded-full border-2 border-[#3D7A52] border-t-transparent animate-spin" />
-              <p className="text-sm text-[#6D6D6D]">Loading map...</p>
+              <p className="text-sm text-[#6D6D6D]">Carregando mapa...</p>
             </div>
           </div>
         )}

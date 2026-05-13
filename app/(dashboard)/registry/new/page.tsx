@@ -85,8 +85,8 @@ export default function NewSpecimenPage() {
     e.preventDefault()
 
     const newErrors: { registryIdentifier?: string; scientificName?: string } = {}
-    if (!form.registryIdentifier.trim()) newErrors.registryIdentifier = 'Registry identifier is required'
-    if (!form.scientificName.trim()) newErrors.scientificName = 'Scientific name is required'
+    if (!form.registryIdentifier.trim()) newErrors.registryIdentifier = 'Identificador do registro é obrigatório'
+    if (!form.scientificName.trim()) newErrors.scientificName = 'Nome científico é obrigatório'
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -130,7 +130,7 @@ export default function NewSpecimenPage() {
       const created = await api.registry.create(payload)
       router.push(`/registry/${created.id}`)
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Failed to create specimen.')
+      setSubmitError(err instanceof Error ? err.message : 'Falha ao criar espécime.')
     } finally {
       setSubmitting(false)
     }
@@ -143,8 +143,8 @@ export default function NewSpecimenPage() {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           Back
         </Link>
-        <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">New Specimen</h1>
-        <p className="text-sm text-[#6D4C41] mt-1">Record a new botanical collection</p>
+        <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Novo Espécime</h1>
+        <p className="text-sm text-[#6D4C41] mt-1">Registrar uma nova coleta botânica</p>
       </header>
 
       {submitError && (
@@ -161,11 +161,11 @@ export default function NewSpecimenPage() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-[#3D7A52]">
                 <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Identification</h2>
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Identificação</h2>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Registry Identifier *</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Identificador do Registro *</label>
                 <input
                   type="text"
                   name="registryIdentifier"
@@ -179,7 +179,7 @@ export default function NewSpecimenPage() {
                 {errors.registryIdentifier && <p className="text-[#E53935] text-xs mt-1">{errors.registryIdentifier}</p>}
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Scientific Name *</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nome Científico *</label>
                 <input
                   type="text"
                   name="scientificName"
@@ -193,7 +193,7 @@ export default function NewSpecimenPage() {
                 {errors.scientificName && <p className="text-[#E53935] text-xs mt-1">{errors.scientificName}</p>}
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Common Name</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nome Popular</label>
                 <input
                   type="text"
                   name="commonName"
@@ -204,7 +204,7 @@ export default function NewSpecimenPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Family</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Família</label>
                   <input
                     type="text"
                     name="family"
@@ -214,7 +214,7 @@ export default function NewSpecimenPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Genus</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Gênero</label>
                   <input
                     type="text"
                     name="genus"
@@ -233,11 +233,11 @@ export default function NewSpecimenPage() {
                 <path d="M12 21C12 21 5 14.5 5 9C5 5.13401 8.13401 2 12 2C15.866 2 19 5.13401 19 9C19 14.5 12 21 12 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <circle cx="12" cy="9" r="3" stroke="currentColor" strokeWidth="2"/>
               </svg>
-              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Collection Info</h2>
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Informações da Coleta</h2>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Date Collected</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Data da Coleta</label>
                 <input
                   type="date"
                   name="dateCollected"
@@ -272,26 +272,26 @@ export default function NewSpecimenPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Locality</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Localidade</label>
                   <input type="text" name="locality" value={form.locality} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Municipality</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Município</label>
                   <input type="text" name="municipality" value={form.municipality} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">State</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Estado</label>
                   <input type="text" name="state" value={form.state} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Country</label>
+                  <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">País</label>
                   <input type="text" name="country" value={form.country} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
                 </div>
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Substrate</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Substrato</label>
                 <input type="text" name="substrate" value={form.substrate} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
             </div>
@@ -303,55 +303,55 @@ export default function NewSpecimenPage() {
                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Field Conditions &amp; Observation</h2>
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Condições de Campo &amp; Observação</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Phenological State</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Estado Fenológico</label>
                 <input type="text" name="phenologicalState" value={form.phenologicalState} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Collection Method</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Método de Coleta</label>
                 <input type="text" name="collectionMethod" value={form.collectionMethod} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Collector Number</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Número do Coletor</label>
                 <input type="text" name="collectorNumber" value={form.collectorNumber} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">No. of Individuals</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nº de Indivíduos</label>
                 <input type="number" name="numberOfIndividuals" value={form.numberOfIndividuals} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Weather Condition</label>
-                <input type="text" name="weatherCondition" value={form.weatherCondition} onChange={handleChange} placeholder="sunny, cloudy, rainy…" className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Condição Climática</label>
+                <input type="text" name="weatherCondition" value={form.weatherCondition} onChange={handleChange} placeholder="ensolarado, nublado, chuvoso…" className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Weather Notes</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Notas do Clima</label>
                 <input type="text" name="weatherNotes" value={form.weatherNotes} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Moon Phase</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Fase da Lua</label>
                 <input type="text" name="moonPhase" value={form.moonPhase} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Wind Speed (km/h)</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Velocidade do Vento (km/h)</label>
                 <input type="number" step="any" name="windSpeed" value={form.windSpeed} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Associated Taxa</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Táxons Associados</label>
                 <input type="text" name="associatedTaxa" value={form.associatedTaxa} onChange={handleChange} className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Vegetation Type</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Tipo de Vegetação</label>
                 <input type="text" name="vegetationType" value={form.vegetationType} onChange={handleChange} placeholder="Cerrado, Mata Atlântica…" className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Topography</label>
-                <input type="text" name="topography" value={form.topography} onChange={handleChange} placeholder="slope, valley, hilltop…" className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Topografia</label>
+                <input type="text" name="topography" value={form.topography} onChange={handleChange} placeholder="encosta, vale, topo…" className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Det. Qualifier</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Qualif. Determinação</label>
                 <input type="text" name="determinationQualifier" value={form.determinationQualifier} onChange={handleChange} placeholder='cf., aff., ?' className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
               </div>
             </div>
@@ -362,13 +362,13 @@ export default function NewSpecimenPage() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-[#3D7A52]">
                 <path d="M4 6H20M4 12H20M4 18H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Notes</h2>
+              <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Observações</h2>
             </div>
             <div>
               <textarea
                 name="notes"
                 rows={5}
-                placeholder="Field observations, identifiers, voucher references..."
+                placeholder="Observações de campo, identificadores, referências de voucher..."
                 value={form.notes}
                 onChange={handleChange}
                 className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors resize-none"
@@ -382,14 +382,14 @@ export default function NewSpecimenPage() {
             href="/registry"
             className="px-6 py-3 rounded-full bg-white border border-[#EEEEEE] text-[#49454F] text-sm font-medium hover:bg-[#F5F5F5] transition-colors"
           >
-            Cancel
+            Cancelar
           </Link>
           <button
             type="submit"
             disabled={submitting}
             className="px-6 py-3 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] transition-colors disabled:opacity-60"
           >
-            {submitting ? 'Saving...' : 'Save Specimen'}
+            {submitting ? 'Salvando...' : 'Salvar Espécime'}
           </button>
         </div>
       </form>

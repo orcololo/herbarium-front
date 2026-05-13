@@ -15,7 +15,7 @@ interface SearchInputProps {
 export function SearchInput({
   value,
   onChange,
-  placeholder = 'Search...',
+  placeholder = 'Buscar…',
   debounceMs = 300,
   className,
 }: SearchInputProps) {
@@ -58,7 +58,7 @@ export function SearchInput({
           type="button"
           onClick={handleClear}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9E9E9E] transition-colors duration-200 hover:text-[#1C1B1F]"
-          aria-label="Clear search"
+          aria-label="Limpar busca"
         >
           <X size={16} />
         </button>

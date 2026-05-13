@@ -61,7 +61,7 @@ export default function SpeciesDetailPage() {
           setError(null)
         }
       } catch {
-        if (mounted) setError('Failed to load species details.')
+        if (mounted) setError('Falha ao carregar detalhes da espécie.')
       } finally {
         if (mounted) setLoading(false)
       }
@@ -86,7 +86,7 @@ export default function SpeciesDetailPage() {
 
   const handleSave = async () => {
     if (!formData.scientificName.trim()) {
-      setSaveError('Scientific name is required.')
+      setSaveError('Nome científico é obrigatório.')
       return
     }
     setSaving(true)
@@ -105,7 +105,7 @@ export default function SpeciesDetailPage() {
       setItem(updated)
       setEditing(false)
     } catch {
-      setSaveError('Failed to save changes.')
+      setSaveError('Falha ao salvar alterações.')
     } finally {
       setSaving(false)
     }
@@ -144,11 +144,11 @@ export default function SpeciesDetailPage() {
       <div className="max-w-4xl mx-auto animate-fade-in">
         <Link href="/species" className="inline-flex items-center gap-2 text-sm font-medium text-[#6D4C41] hover:text-[#1C1B1F] mb-6 transition-colors">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          Back to Taxonomy
+          Voltar para Taxonomia
         </Link>
         <div className="bg-[#FFEBEE] text-[#C62828] px-6 py-5 rounded-[20px] border border-[#FFCDD2] flex items-center gap-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 8V12M12 16H12.01M3 12C3 7.029 7.029 3 12 3s9 4.029 9 9-4.029 9-9 9-9-4.029-9-9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          <p className="font-medium">{error || 'Species not found.'}</p>
+          <p className="font-medium">{error || 'Espécie não encontrada.'}</p>
         </div>
       </div>
     )
@@ -158,7 +158,7 @@ export default function SpeciesDetailPage() {
     <div className="max-w-4xl mx-auto animate-fade-in pb-12">
       <Link href="/species" className="inline-flex items-center gap-2 text-sm font-medium text-[#6D4C41] hover:text-[#1C1B1F] mb-6 transition-colors">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        Back to Taxonomy
+        Voltar para Taxonomia
       </Link>
 
       {editing && (
@@ -168,14 +168,14 @@ export default function SpeciesDetailPage() {
             disabled={saving}
             className="px-5 py-2 rounded-full bg-white border border-[#EEEEEE] text-[#49454F] text-xs font-medium hover:bg-[#F5F5F5] transition-colors disabled:opacity-60"
           >
-            Cancel
+            Cancelar
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
             className="px-5 py-2 rounded-full bg-[#3D7A52] text-white text-xs font-medium hover:bg-[#2D5F3F] transition-colors disabled:opacity-60 flex items-center gap-2"
           >
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? 'Salvando...' : 'Salvar Alterações'}
           </button>
         </div>
       )}
@@ -208,7 +208,7 @@ export default function SpeciesDetailPage() {
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#E8F5E9] text-[#3D7A52] text-xs font-medium hover:bg-[#C8E6C9] transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5l13.732-13.732z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Edit
+            Editar
           </button>
         )}
       </header>
@@ -222,13 +222,13 @@ export default function SpeciesDetailPage() {
               <path d="M12 12L16 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M12 16L8 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Classification</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Classificação</h2>
           </div>
 
           {editing ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Scientific Name *</label>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Nome Científico *</label>
                 <input
                   type="text"
                   value={formData.scientificName}
@@ -237,7 +237,7 @@ export default function SpeciesDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Common Name</label>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Nome Popular</label>
                 <input
                   type="text"
                   value={formData.commonName}
@@ -247,7 +247,7 @@ export default function SpeciesDetailPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Family</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Família</label>
                   <input
                     type="text"
                     value={formData.family}
@@ -256,7 +256,7 @@ export default function SpeciesDetailPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Genus</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Gênero</label>
                   <input
                     type="text"
                     value={formData.genus}
@@ -265,7 +265,7 @@ export default function SpeciesDetailPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Species Epithet</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Epíteto Específico</label>
                   <input
                     type="text"
                     value={formData.species}
@@ -274,13 +274,13 @@ export default function SpeciesDetailPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Category</label>
+                  <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Categoria</label>
                   <select
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value as PlantCategory | '' })}
                     className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
                   >
-                    <option value="">None</option>
+                    <option value="">Nenhuma</option>
                     {PLANT_CATEGORIES.map(c => (
                       <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
                     ))}
@@ -290,13 +290,13 @@ export default function SpeciesDetailPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              <Field label="Scientific Name" value={item.scientificName} />
-              <Field label="Common Name" value={item.commonName} />
+              <Field label="Nome Científico" value={item.scientificName} />
+              <Field label="Nome Popular" value={item.commonName} />
               <div className="grid grid-cols-2 gap-4">
-                <Field label="Family" value={item.family} />
-                <Field label="Genus" value={item.genus} />
-                <Field label="Species Epithet" value={item.species} />
-                <Field label="Category" value={item.category} />
+                <Field label="Família" value={item.family} />
+                <Field label="Gênero" value={item.genus} />
+                <Field label="Epíteto Específico" value={item.species} />
+                <Field label="Categoria" value={item.category} />
               </div>
             </div>
           )}
@@ -307,13 +307,13 @@ export default function SpeciesDetailPage() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-[#3D7A52]">
               <path d="M13 16H12V12H11M12 8H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Details</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Detalhes</h2>
           </div>
 
           {editing ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Description</label>
+                <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Descrição</label>
                 <textarea
                   rows={4}
                   value={formData.description}
@@ -324,7 +324,7 @@ export default function SpeciesDetailPage() {
             </div>
           ) : (
             <div className="space-y-6">
-              <Field label="Description" value={item.description} />
+              <Field label="Descrição" value={item.description} />
 
               <div>
                 <div className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Status</div>
@@ -334,12 +334,12 @@ export default function SpeciesDetailPage() {
                     ? "bg-[#E8F5E9] text-[#2D5F3F] border-[#C8E6C9]"
                     : "bg-[#F5F5F5] text-[#6D4C41] border-[#EEEEEE]"
                 )}>
-                  {item.isActive ? 'Active' : 'Inactive'}
+                  {item.isActive ? 'Ativo' : 'Inativo'}
                 </span>
               </div>
 
               <div>
-                <div className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Added</div>
+                <div className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">Adicionado em</div>
                 <div className="text-sm text-[#1C1B1F] font-medium">
                   {new Date(item.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
                 </div>
@@ -359,7 +359,7 @@ export default function SpeciesDetailPage() {
               <path d="M12 22C12 22 20 18 20 12C20 6 12 2 12 2C12 2 4 6 4 12C4 18 12 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M12 22V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            View Specimens
+            Ver Espécimes
           </Link>
         </div>
       )}

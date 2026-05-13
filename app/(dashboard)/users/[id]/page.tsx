@@ -14,10 +14,11 @@ function RoleBadge({ role }: { role: string }) {
     user: 'bg-[#F5F5F5] text-[#49454F]',
   }
   const cls = styles[role as keyof typeof styles] ?? styles.user
+  const labels: Record<string, string> = { admin: 'Administrador', researcher: 'Pesquisador', user: 'Coletor' }
 
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${cls}`}>
-      {role.charAt(0).toUpperCase() + role.slice(1)}
+      {labels[role] ?? role.charAt(0).toUpperCase() + role.slice(1)}
     </span>
   )
 }
@@ -76,10 +77,10 @@ export default function UserDetailPage() {
     return (
       <div className="space-y-6">
         <button onClick={() => router.back()} className="flex items-center gap-2 text-sm text-[#49454F] hover:text-[#1C1B1F] transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Back
+          <ArrowLeft className="w-4 h-4" /> Voltar
         </button>
         <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center">
-          <p className="text-[#9E9E9E]">User not found.</p>
+          <p className="text-[#9E9E9E]">Usuário não encontrado.</p>
         </div>
       </div>
     )
@@ -91,7 +92,7 @@ export default function UserDetailPage() {
         onClick={() => router.back()}
         className="flex items-center gap-2 text-sm text-[#49454F] hover:text-[#1C1B1F] transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" /> Back to Users
+        <ArrowLeft className="w-4 h-4" /> Voltar para Usuários
       </button>
 
       <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8">
@@ -111,13 +112,13 @@ export default function UserDetailPage() {
         <div className="border-t border-[#F0F0F0] pt-6">
           <div className="flex items-center gap-3 mb-4">
             <Shield className="w-5 h-5 text-[#3D7A52]" />
-            <h2 className="text-lg font-semibold text-[#1C1B1F]">Role Management</h2>
+            <h2 className="text-lg font-semibold text-[#1C1B1F]">Gerenciamento de Função</h2>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               <label htmlFor="role-select" className="text-sm text-[#49454F]">
-                Current role:
+                Função atual:
               </label>
               <RoleBadge role={user.role ?? 'user'} />
             </div>
@@ -132,7 +133,7 @@ export default function UserDetailPage() {
             >
               {ROLES.map(role => (
                 <option key={role} value={role}>
-                  {role.charAt(0).toUpperCase() + role.slice(1)}
+                  {role === 'admin' ? 'Administrador' : role === 'researcher' ? 'Pesquisador' : 'Coletor'}
                 </option>
               ))}
             </select>
@@ -142,7 +143,7 @@ export default function UserDetailPage() {
               disabled={saving || selectedRole === (user.role ?? 'user')}
               className="px-6 py-2 text-sm font-medium bg-[#3D7A52] text-white rounded-full hover:bg-[#2D5F3F] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
-              {saving ? 'Saving...' : saved ? 'Saved' : 'Save'}
+              {saving ? 'Salvando...' : saved ? 'Salvo' : 'Salvar'}
             </button>
           </div>
         </div>

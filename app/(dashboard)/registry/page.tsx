@@ -44,7 +44,7 @@ function SpeciesName(registry: Registry): string {
   if (typeof registry.species === 'object' && registry.species !== null) {
     return registry.species.scientificName
   }
-  return 'Unknown species'
+  return 'Espécie desconhecida'
 }
 
 function CommonName(registry: Registry): string | null {
@@ -81,7 +81,7 @@ export default function RegistryPage() {
       setItems(res.data)
       setTotal(res.total)
     } catch {
-      setError('Failed to load registry.')
+      setError('Falha ao carregar registros.')
     } finally {
       setLoading(false)
     }
@@ -98,25 +98,25 @@ export default function RegistryPage() {
     <div className="animate-fade-in">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Registry</h1>
-          <p className="text-sm text-[#6D4C41] mt-1">{total} specimens collected</p>
+          <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Registros</h1>
+          <p className="text-sm text-[#6D4C41] mt-1">{total} espécimes coletados</p>
         </div>
         
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-[#EEEEEE] shadow-sm">
             <div className="w-2 h-2 rounded-full bg-[#4CAF50]"></div>
-            <span className="text-xs font-medium text-[#49454F]">{syncedCount} Synced</span>
+            <span className="text-xs font-medium text-[#49454F]">{syncedCount} Sincronizados</span>
           </div>
           <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-[#EEEEEE] shadow-sm">
             <div className="w-2 h-2 rounded-full bg-[#FF9800]"></div>
-            <span className="text-xs font-medium text-[#49454F]">{pendingCount} Pending</span>
+            <span className="text-xs font-medium text-[#49454F]">{pendingCount} Pendentes</span>
           </div>
           <Link
             href="/registry/new"
             className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:-translate-y-0.5 transition-all duration-200"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>
-            New Specimen
+            Novo Espécime
           </Link>
         </div>
       </header>
@@ -129,7 +129,7 @@ export default function RegistryPage() {
           </svg>
           <input
             type="search"
-            placeholder="Search by species, identifier…"
+            placeholder="Buscar por espécie, identificador…"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
             className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-[#EEEEEE] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:border-[#3D7A52] shadow-sm transition-all duration-200"
@@ -141,7 +141,7 @@ export default function RegistryPage() {
         <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5V8M8 11H8.01M2 8C2 4.686 4.686 2 8 2s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           {error}
-          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Retry</button>
+          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
         </div>
       )}
 
@@ -208,8 +208,8 @@ export default function RegistryPage() {
               <path d="M34 34L38 38" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
-          <p className="text-xl font-semibold text-[#1C1B1F]">No specimens found</p>
-          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">Open your Folium field app to collect specimens and sync them to the dashboard.</p>
+          <p className="text-xl font-semibold text-[#1C1B1F]">Nenhum espécime encontrado</p>
+          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">Abra o aplicativo Folium para coletar espécimes e sincronizá-los com o painel.</p>
         </div>
       )}
 
@@ -220,7 +220,7 @@ export default function RegistryPage() {
             onClick={() => setPage(p => p - 1)}
             className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
           >
-            Previous
+            Anterior
           </button>
           <div className="flex items-center gap-1 px-2">
             {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
@@ -250,7 +250,7 @@ export default function RegistryPage() {
             onClick={() => setPage(p => p + 1)}
             className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
           >
-            Next
+            Próximo
           </button>
         </div>
       )}

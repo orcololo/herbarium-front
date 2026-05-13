@@ -35,7 +35,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        aria-label="Previous page"
+        aria-label="Página anterior"
         className={clsx(baseBtn, 'px-2 text-[#49454F] hover:bg-[#F5F5F5] disabled:opacity-40 disabled:hover:bg-transparent')}
       >
         <ChevronLeft size={16} />
@@ -51,7 +51,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
             type="button"
             onClick={() => onPageChange(p)}
             aria-current={p === page ? 'page' : undefined}
-            aria-label={`Page ${p}`}
+            aria-label={`Página ${p}`}
             className={clsx(
               baseBtn,
               p === page
@@ -67,7 +67,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        aria-label="Next page"
+        aria-label="Próxima página"
         className={clsx(baseBtn, 'px-2 text-[#49454F] hover:bg-[#F5F5F5] disabled:opacity-40 disabled:hover:bg-transparent')}
       >
         <ChevronRight size={16} />

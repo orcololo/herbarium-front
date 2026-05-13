@@ -29,8 +29,8 @@ export default function NewSessionPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const errs: Record<string, string> = {}
-    if (!form.tripName.trim()) errs.tripName = 'Trip name is required'
-    if (!form.startDate) errs.startDate = 'Start date is required'
+    if (!form.tripName.trim()) errs.tripName = 'Nome da expedição é obrigatório'
+    if (!form.startDate) errs.startDate = 'Data de início é obrigatória'
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
     setSubmitting(true)
     try {
@@ -47,7 +47,7 @@ export default function NewSessionPage() {
       const created = await api.sessions.create(payload)
       router.push(`/sessions/${created.id}`)
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Failed to create session.')
+      setSubmitError(err instanceof Error ? err.message : 'Falha ao criar sessão.')
     } finally {
       setSubmitting(false)
     }
@@ -60,8 +60,8 @@ export default function NewSessionPage() {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
           Back
         </Link>
-        <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">New Session</h1>
-        <p className="text-sm text-[#6D4C41] mt-0.5">Create a new field collection session</p>
+        <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Nova Sessão</h1>
+        <p className="text-sm text-[#6D4C41] mt-0.5">Criar uma nova sessão de coleta em campo</p>
       </div>
 
       {submitError && (
@@ -78,17 +78,17 @@ export default function NewSessionPage() {
               <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
               <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Trip Details</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Detalhes da Expedição</h2>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Trip Name *</label>
+              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nome da Expedição *</label>
               <input
                 type="text"
                 value={form.tripName}
                 onChange={e => { setForm(f => ({ ...f, tripName: e.target.value })); setErrors(e => ({ ...e, tripName: '' })) }}
-                placeholder="Amazon River Expedition 2026"
+                placeholder="Expedição Rio Amazonas 2026"
                 className={clsx(
                   "w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors",
                   errors.tripName && "border-[#E53935] bg-[#FFF5F5]"
@@ -99,7 +99,7 @@ export default function NewSessionPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Start Date *</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Data Início *</label>
                 <input
                   type="date"
                   value={form.startDate}
@@ -112,7 +112,7 @@ export default function NewSessionPage() {
                 {errors.startDate && <p className="text-[#E53935] text-xs mt-1">{errors.startDate}</p>}
               </div>
               <div>
-                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">End Date</label>
+                <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Data Fim</label>
                 <input
                   type="date"
                   value={form.endDate}
@@ -123,23 +123,23 @@ export default function NewSessionPage() {
             </div>
 
             <div>
-              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Location</label>
+              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Localidade</label>
               <input
                 type="text"
                 value={form.location}
                 onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
-                placeholder="Municipality, State, Country"
+                placeholder="Município, Estado, País"
                 className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
               />
             </div>
 
             <div>
-              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Share Code</label>
+              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Código de Compartilhamento</label>
               <input
                 type="text"
                 value={form.shareCode}
                 onChange={e => setForm(f => ({ ...f, shareCode: e.target.value }))}
-                placeholder="Optional share code for collaborators"
+                placeholder="Código opcional para colaboradores"
                 className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
               />
             </div>
@@ -153,7 +153,7 @@ export default function NewSessionPage() {
               <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M23 21V19C23 17.1432 21.733 15.5824 20 15.13M16 3.13C17.733 3.5824 19 5.14318 19 7C19 8.85682 17.733 10.4176 16 10.87" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Team Members</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Membros da Equipe</h2>
           </div>
 
           <div className="space-y-4">
@@ -171,14 +171,14 @@ export default function NewSessionPage() {
             )}
 
             <div>
-              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Add Member</label>
+              <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Adicionar Membro</label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={newMember}
                   onChange={e => setNewMember(e.target.value)}
                   onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); addMember() } }}
-                  placeholder="Name"
+                  placeholder="Nome"
                   className="flex-1 px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
                 />
                 <button
@@ -186,7 +186,7 @@ export default function NewSessionPage() {
                   onClick={addMember}
                   className="px-4 py-2.5 rounded-[12px] bg-[#3D7A52] text-white text-sm font-medium hover:bg-[#2D5F3F] transition-colors"
                 >
-                  Add
+                  Adicionar
                 </button>
               </div>
             </div>
@@ -199,16 +199,16 @@ export default function NewSessionPage() {
               <path d="M11 4H4C2.89543 4 2 4.89543 2 6V20C2 21.1046 2.89543 22 4 22H18C19.1046 22 20 21.1046 20 20V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M18.5 2.50001C19.3284 1.67158 20.6716 1.67158 21.5 2.50001C22.3284 3.32844 22.3284 4.67158 21.5 5.50001L12 15L8 16L9 12L18.5 2.50001Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Notes</h2>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Observações</h2>
           </div>
 
           <div>
-            <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Additional Information</label>
+            <label className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Informações Adicionais</label>
             <textarea
               rows={4}
               value={form.notes}
               onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
-              placeholder="Trip objectives, logistics, weather conditions..."
+              placeholder="Objetivos da expedição, logística, condições climáticas..."
               className="w-full px-4 py-2.5 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors resize-y"
             />
           </div>
@@ -219,14 +219,14 @@ export default function NewSessionPage() {
             href="/sessions"
             className="px-6 py-3 rounded-full bg-white border border-[#EEEEEE] text-[#49454F] text-sm font-medium hover:bg-[#F5F5F5] transition-colors"
           >
-            Cancel
+            Cancelar
           </Link>
           <button
             type="submit"
             disabled={submitting}
             className="px-6 py-3 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] transition-colors disabled:opacity-60"
           >
-            {submitting ? 'Creating...' : 'Create Session'}
+            {submitting ? 'Criando...' : 'Criar Sessão'}
           </button>
         </div>
       </form>

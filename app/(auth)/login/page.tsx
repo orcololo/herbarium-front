@@ -25,7 +25,7 @@ export default function LoginPage() {
       if (err instanceof ApiError) {
         setError(err.message)
       } else {
-        setError('Unexpected error. Please try again.')
+        setError('Erro inesperado. Tente novamente.')
       }
     } finally {
       setLoading(false)
@@ -43,13 +43,13 @@ export default function LoginPage() {
             </svg>
           </div>
           <h1 className="text-[28px] font-bold text-[#1C1B1F] tracking-tight">Folium</h1>
-          <p className="text-[#6D4C41] text-sm mt-1 italic">Botanical Field Book</p>
+          <p className="text-[#6D4C41] text-sm mt-1 italic">Caderneta Botânica de Campo</p>
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 pb-10 space-y-5">
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="email">
-              Email
+              E-mail
             </label>
             <input
               id="email"
@@ -65,7 +65,7 @@ export default function LoginPage() {
 
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="password">
-              Password
+              Senha
             </label>
             <input
               id="password"
@@ -93,13 +93,13 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full h-12 mt-2 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_4px_12px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:shadow-[0_6px_16px_rgba(61,122,82,0.4)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[0_4px_12px_rgba(61,122,82,0.3)]"
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'Entrando…' : 'Entrar'}
           </button>
 
           <p className="text-center text-xs text-[#9E9E9E] pt-1">
-            New to Folium?{' '}
+            Novo no Folium?{' '}
             <Link href="/register" className="text-[#3D7A52] font-medium hover:underline">
-              Create account
+              Criar conta
             </Link>
           </p>
         </form>

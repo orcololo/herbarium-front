@@ -71,7 +71,7 @@ export default function SessionsPage() {
       setItems(res.data)
       setTotal(res.total)
     } catch {
-      setError('Failed to load sessions.')
+      setError('Falha ao carregar sessões.')
     } finally {
       setLoading(false)
     }
@@ -91,15 +91,15 @@ export default function SessionsPage() {
           </svg>
         </div>
         <div>
-          <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Collection Sessions</h1>
-          <p className="text-sm text-[#6D4C41] mt-0.5">{total} field trips recorded</p>
+          <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Sessões de Coleta</h1>
+          <p className="text-sm text-[#6D4C41] mt-0.5">{total} expedições registradas</p>
         </div>
         <Link
           href="/sessions/new"
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:-translate-y-0.5 transition-all duration-200 ml-auto"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>
-          New Session
+          Nova Sessão
         </Link>
       </header>
 
@@ -111,7 +111,7 @@ export default function SessionsPage() {
             type="text"
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Search by trip name..."
+            placeholder="Buscar sessões por nome…"
             className="w-full pl-10 pr-4 py-2.5 rounded-full border border-[#DDDDDD] text-sm text-[#1C1B1F] placeholder:text-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#3D7A52] focus:border-transparent transition-shadow"
           />
         </div>
@@ -127,7 +127,7 @@ export default function SessionsPage() {
                   : 'bg-white text-[#49454F] border border-[#DDDDDD] hover:bg-[#F5F5F5]'
               )}
             >
-              {status.charAt(0).toUpperCase() + status.slice(1)}
+              {status.charAt(0).toUpperCase() + status.slice(1) === 'All' ? 'Todas' : status.charAt(0).toUpperCase() + status.slice(1) === 'Active' ? 'Ativas' : 'Arquivadas'}
             </button>
           ))}
         </div>
@@ -137,7 +137,7 @@ export default function SessionsPage() {
         <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5V8M8 11H8.01M2 8C2 4.686 4.686 2 8 2s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           {error}
-          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Retry</button>
+          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
         </div>
       )}
 
@@ -161,7 +161,7 @@ export default function SessionsPage() {
                   <div className="flex items-center gap-3 mb-1">
                     <p className="text-base font-semibold text-[#1C1B1F] truncate">{session.tripName}</p>
                     {session.isArchived && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F5F5F5] text-[#9E9E9E]">Archived</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F5F5F5] text-[#9E9E9E]">Arquivada</span>
                     )}
                   </div>
                   
@@ -224,14 +224,14 @@ export default function SessionsPage() {
               <path d="M24 24C24 24 20 28 20 32C20 34.2091 21.7909 36 24 36C26.2091 36 28 34.2091 28 32C28 28 24 24 24 24Z" fill="white" stroke="currentColor" strokeWidth="2"/>
             </svg>
           </div>
-          <p className="text-xl font-semibold text-[#1C1B1F]">No field trips yet</p>
-          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">Create a collection session in the mobile app to organize your specimens.</p>
+          <p className="text-xl font-semibold text-[#1C1B1F]">Nenhuma expedição ainda</p>
+          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">Crie uma sessão de coleta no aplicativo móvel para organizar seus espécimes.</p>
         </div>
       )}
 
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 mt-10">
-          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Previous</button>
+          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Anterior</button>
           <div className="flex items-center gap-1 px-2">
             {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
               let pageNum = i + 1;
@@ -255,7 +255,7 @@ export default function SessionsPage() {
               )
             })}
           </div>
-          <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Next</button>
+          <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Próximo</button>
         </div>
       )}
     </div>

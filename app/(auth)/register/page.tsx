@@ -27,7 +27,7 @@ export default function RegisterPage() {
       if (err instanceof ApiError) {
         setError(err.message)
       } else {
-        setError('Unexpected error. Please try again.')
+        setError('Erro inesperado. Tente novamente.')
       }
     } finally {
       setLoading(false)
@@ -44,14 +44,14 @@ export default function RegisterPage() {
               <path d="M16 4C16 4 16 14 10 20" stroke="#E8F5E9" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
-          <h1 className="text-[24px] font-bold text-[#1C1B1F] tracking-tight">Create account</h1>
-          <p className="text-[#6D4C41] text-sm mt-1 italic">Join Folium Field Book</p>
+          <h1 className="text-[24px] font-bold text-[#1C1B1F] tracking-tight">Criar conta</h1>
+          <p className="text-[#6D4C41] text-sm mt-1 italic">Junte-se ao Folium</p>
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-4">
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="name">
-              Full name
+              Nome completo
             </label>
             <input
               id="name"
@@ -67,7 +67,7 @@ export default function RegisterPage() {
 
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="email">
-              Email
+              E-mail
             </label>
             <input
               id="email"
@@ -83,7 +83,7 @@ export default function RegisterPage() {
 
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="password">
-              Password
+              Senha
             </label>
             <input
               id="password"
@@ -94,14 +94,14 @@ export default function RegisterPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
-              placeholder="Min. 8 characters"
+              placeholder="Mín. 8 caracteres"
             />
           </div>
 
           <div>
             <label className="block text-xs font-medium text-[#49454F] mb-1.5 uppercase tracking-wider" htmlFor="institution">
-              Institution
-              <span className="normal-case font-normal text-[#AAAAAA] ml-1">(optional)</span>
+              Instituição
+              <span className="normal-case font-normal text-[#AAAAAA] ml-1">(opcional)</span>
             </label>
             <input
               id="institution"
@@ -110,7 +110,7 @@ export default function RegisterPage() {
               value={institution}
               onChange={e => setInstitution(e.target.value)}
               className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
-              placeholder="University or herbarium"
+              placeholder="Universidade ou herbário"
             />
           </div>
 
@@ -128,13 +128,13 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full h-12 mt-1 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_4px_12px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:shadow-[0_6px_16px_rgba(61,122,82,0.4)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-none transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[0_4px_12px_rgba(61,122,82,0.3)]"
           >
-            {loading ? 'Creating account…' : 'Create account'}
+            {loading ? 'Criando conta…' : 'Criar conta'}
           </button>
 
           <p className="text-center text-xs text-[#9E9E9E] pt-1">
-            Already have an account?{' '}
+            Já tem uma conta?{' '}
             <Link href="/login" className="text-[#3D7A52] font-medium hover:underline">
-              Sign in
+              Entrar
             </Link>
           </p>
         </form>

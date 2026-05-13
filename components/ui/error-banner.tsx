@@ -21,10 +21,10 @@ export function ErrorBanner({ message, onRetry }: ErrorBannerProps) {
           type="button"
           onClick={onRetry}
           className="flex items-center gap-1 rounded-[8px] px-3 py-1.5 text-xs font-medium text-red-700 transition-colors duration-200 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-1"
-          aria-label="Retry"
+          aria-label="Tentar novamente"
         >
           <RotateCcw size={14} />
-          Retry
+          Tentar novamente
         </button>
       )}
     </div>

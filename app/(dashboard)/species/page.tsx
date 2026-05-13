@@ -42,7 +42,7 @@ export default function SpeciesPage() {
       setItems(res.data)
       setTotal(res.total)
     } catch {
-      setError('Failed to load species.')
+      setError('Falha ao carregar espécies.')
     } finally {
       setLoading(false)
     }
@@ -63,8 +63,8 @@ export default function SpeciesPage() {
             </svg>
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Taxonomy</h1>
-            <p className="text-sm text-[#6D4C41] mt-0.5">{total} species recorded</p>
+            <h1 className="text-2xl font-semibold text-[#1C1B1F] tracking-tight">Taxonomia</h1>
+            <p className="text-sm text-[#6D4C41] mt-0.5">{total} espécies registradas</p>
           </div>
         </div>
         <Link
@@ -72,7 +72,7 @@ export default function SpeciesPage() {
           className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#3D7A52] text-white text-sm font-medium shadow-[0_2px_8px_rgba(61,122,82,0.3)] hover:bg-[#2D5F3F] hover:-translate-y-0.5 transition-all duration-200"
         >
           <Plus size={16} strokeWidth={2.5} />
-          New Species
+          Nova Espécie
         </Link>
       </header>
 
@@ -84,7 +84,7 @@ export default function SpeciesPage() {
           </svg>
           <input
             type="search"
-            placeholder="Search species by name, family…"
+            placeholder="Buscar espécies por nome, família…"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
             className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-[#EEEEEE] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:border-[#3D7A52] shadow-sm transition-all duration-200"
@@ -96,7 +96,7 @@ export default function SpeciesPage() {
         <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5V8M8 11H8.01M2 8C2 4.686 4.686 2 8 2s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           {error}
-          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Retry</button>
+          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
         </div>
       )}
 
@@ -146,14 +146,14 @@ export default function SpeciesPage() {
               <path d="M20 6C20 6 14 9 14 14M20 6C20 6 26 9 26 14M20 34C20 34 14 31 14 26M20 34C20 34 26 31 26 26M6 20C6 20 9 14 14 14M34 20C34 20 31 14 26 14M6 20C6 20 9 26 14 26M34 20C34 20 31 26 26 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
-          <p className="text-xl font-semibold text-[#1C1B1F]">No species found</p>
-          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">Species will appear here automatically as specimens are synced from the field app.</p>
+          <p className="text-xl font-semibold text-[#1C1B1F]">Nenhuma espécie encontrada</p>
+          <p className="text-sm text-[#6D4C41] mt-2 max-w-sm">As espécies aparecerão aqui automaticamente conforme os espécimes forem sincronizados do aplicativo de campo.</p>
         </div>
       )}
 
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 mt-10">
-          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Previous</button>
+          <button disabled={page <= 1} onClick={() => setPage(p => p - 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Anterior</button>
           <div className="flex items-center gap-1 px-2">
             {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
               let pageNum = i + 1;
@@ -177,7 +177,7 @@ export default function SpeciesPage() {
               )
             })}
           </div>
-          <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Next</button>
+          <button disabled={page >= totalPages} onClick={() => setPage(p => p + 1)} className="px-5 py-2.5 rounded-full text-sm font-medium bg-white border border-[#EEEEEE] text-[#49454F] hover:bg-[#F5F5F5] hover:text-[#1C1B1F] disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm">Próximo</button>
         </div>
       )}
     </div>
