@@ -158,6 +158,21 @@ export default function RegistryDetailPage() {
           }
         : {},
       notes: item.notes,
+      temperature: item.temperature,
+      humidity: item.humidity,
+      scientificAuthor: item.scientificAuthor,
+      taxonStatus: item.taxonStatus,
+      contributorName: item.contributorName,
+      isDraft: item.isDraft,
+      caule: item.caule,
+      folhaDescricao: item.folhaDescricao,
+      florDescricao: item.florDescricao,
+      frutoDescricao: item.frutoDescricao,
+      sementeDescricao: item.sementeDescricao,
+      duplicateOf: item.duplicateOf,
+      iNaturalistId: item.iNaturalistId,
+      measurements: item.measurements ? [...item.measurements] : [],
+      determinations: item.determinations ? [...item.determinations] : [],
     })
     setEditing(true)
     setError(null)
@@ -395,6 +410,20 @@ export default function RegistryDetailPage() {
         </div>
       )}
 
+      {editing && (
+        <div className="mb-6 flex items-center gap-3 px-2">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={formData.isDraft ?? item.isDraft ?? true}
+              onChange={e => handleFieldChange('isDraft', e.target.checked)}
+              className="w-4 h-4 rounded border-[#DDDDDD] text-[#3D7A52] focus:ring-[#3D7A52]"
+            />
+            <span className="text-sm text-[#49454F]">Rascunho</span>
+          </label>
+        </div>
+      )}
+
       {error && editing && (
         <div className="mb-6 p-4 bg-[#FFEBEE] text-[#C62828] rounded-[16px] text-sm font-medium">
           {error}
@@ -423,6 +452,9 @@ export default function RegistryDetailPage() {
             <FieldOrInput editing={editing} label="Substrato" value={editing ? formData.substrate : item.substrate} onChange={v => handleFieldChange('substrate', v)} />
             <FieldOrInput editing={editing} label="Número do Coletor" value={editing ? formData.collectorNumber : item.collectorNumber} onChange={v => handleFieldChange('collectorNumber', v)} />
             <FieldOrInput editing={editing} type="number" label="Nº de Indivíduos" value={editing ? formData.numberOfIndividuals : item.numberOfIndividuals} onChange={v => handleFieldChange('numberOfIndividuals', v)} />
+            <FieldOrInput editing={editing} type="number" label="Temperatura (°C)" value={editing ? formData.temperature : item.temperature} onChange={v => handleFieldChange('temperature', v)} />
+            <FieldOrInput editing={editing} type="number" label="Umidade (%)" value={editing ? formData.humidity : item.humidity} onChange={v => handleFieldChange('humidity', v)} />
+            <FieldOrInput editing={editing} label="Contribuidor" value={editing ? formData.contributorName : item.contributorName} onChange={v => handleFieldChange('contributorName', v)} />
           </div>
         </div>
 
@@ -446,6 +478,10 @@ export default function RegistryDetailPage() {
             <FieldOrInput editing={editing} label="Tipo de Vegetação" value={editing ? formData.vegetationType : item.vegetationType} onChange={v => handleFieldChange('vegetationType', v)} />
             <FieldOrInput editing={editing} label="Topografia" value={editing ? formData.topography : item.topography} onChange={v => handleFieldChange('topography', v)} />
             <FieldOrInput editing={editing} label="Qualif. Determinação" value={editing ? formData.determinationQualifier : item.determinationQualifier} onChange={v => handleFieldChange('determinationQualifier', v)} />
+            <FieldOrInput editing={editing} label="Autor Científico" value={editing ? formData.scientificAuthor : item.scientificAuthor} onChange={v => handleFieldChange('scientificAuthor', v)} />
+            <FieldOrInput editing={editing} label="Status Taxonômico" value={editing ? formData.taxonStatus : item.taxonStatus} onChange={v => handleFieldChange('taxonStatus', v)} />
+            <FieldOrInput editing={editing} label="Duplicata de" value={editing ? formData.duplicateOf : item.duplicateOf} onChange={v => handleFieldChange('duplicateOf', v)} />
+            <FieldOrInput editing={editing} label="iNaturalist ID" value={editing ? formData.iNaturalistId : item.iNaturalistId} onChange={v => handleFieldChange('iNaturalistId', v)} />
           </div>
         </div>
 
@@ -490,7 +526,14 @@ export default function RegistryDetailPage() {
             <MorphSubSection title="Semente">
               <FieldOrInput editing={editing} label="Formato" value={morphSrc?.seed?.format} onChange={v => setSeedField('format', v as string | undefined)} />
               <FieldOrInput editing={editing} label="Tamanho" value={morphSrc?.seed?.size} onChange={v => setSeedField('size', v as string | undefined)} />
+              <FieldOrInput editing={editing} label="Cor" value={morphSrc?.seed?.color} onChange={v => setSeedField('color', v as string | undefined)} />
             </MorphSubSection>
+
+            <FieldOrInput editing={editing} label="Descrição do Caule" value={editing ? formData.caule : item.caule} onChange={v => handleFieldChange('caule', v)} />
+            <FieldOrInput editing={editing} label="Descrição da Folha" value={editing ? formData.folhaDescricao : item.folhaDescricao} onChange={v => handleFieldChange('folhaDescricao', v)} />
+            <FieldOrInput editing={editing} label="Descrição da Flor" value={editing ? formData.florDescricao : item.florDescricao} onChange={v => handleFieldChange('florDescricao', v)} />
+            <FieldOrInput editing={editing} label="Descrição do Fruto" value={editing ? formData.frutoDescricao : item.frutoDescricao} onChange={v => handleFieldChange('frutoDescricao', v)} />
+            <FieldOrInput editing={editing} label="Descrição da Semente" value={editing ? formData.sementeDescricao : item.sementeDescricao} onChange={v => handleFieldChange('sementeDescricao', v)} />
           </div>
         )}
 
@@ -514,6 +557,80 @@ export default function RegistryDetailPage() {
             <p className="text-sm text-[#49454F] leading-relaxed whitespace-pre-wrap">
               {item.notes || <span className="text-[#AAAAAA] italic">Nenhuma observação registrada para este espécime.</span>}
             </p>
+          )}
+        </div>
+
+        <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 border border-transparent hover:border-[#EEEEEE] transition-colors">
+          <div className="flex items-center gap-2 mb-5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-[#3D7A52]">
+              <path d="M2 12H6L9 3L15 21L18 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Medições</h2>
+          </div>
+          {(editing ? (formData.measurements ?? item.measurements ?? []) : (item.measurements ?? [])).length === 0 && !editing && (
+            <p className="text-sm text-[#AAAAAA] italic">Nenhuma medição registrada.</p>
+          )}
+          {(editing ? (formData.measurements ?? item.measurements ?? []) : (item.measurements ?? [])).map((m, i) => (
+            <div key={i} className="flex items-center gap-2 mb-2">
+              {editing ? (
+                <>
+                  <input value={m.label} onChange={e => { const ms = [...(formData.measurements ?? item.measurements ?? [])]; ms[i] = { ...ms[i], label: e.target.value }; handleFieldChange('measurements', ms) }} placeholder="Nome" className="flex-1 px-3 py-2 rounded-[10px] bg-[#F5F5F5] text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                  <input type="number" step="any" value={m.value} onChange={e => { const ms = [...(formData.measurements ?? item.measurements ?? [])]; ms[i] = { ...ms[i], value: parseFloat(e.target.value) || 0 }; handleFieldChange('measurements', ms) }} placeholder="Valor" className="w-24 px-3 py-2 rounded-[10px] bg-[#F5F5F5] text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                  <input value={m.unit ?? ''} onChange={e => { const ms = [...(formData.measurements ?? item.measurements ?? [])]; ms[i] = { ...ms[i], unit: e.target.value }; handleFieldChange('measurements', ms) }} placeholder="Un." className="w-16 px-3 py-2 rounded-[10px] bg-[#F5F5F5] text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                  <button onClick={() => { const ms = [...(formData.measurements ?? item.measurements ?? [])]; ms.splice(i, 1); handleFieldChange('measurements', ms) }} className="text-[#E53935] hover:bg-[#FFEBEE] rounded-full p-1"><X size={14} /></button>
+                </>
+              ) : (
+                <p className="text-sm text-[#1C1B1F]"><span className="font-medium">{m.label}:</span> {m.value}{m.unit ? ` ${m.unit}` : ''}</p>
+              )}
+            </div>
+          ))}
+          {editing && (
+            <button onClick={() => { const ms = [...(formData.measurements ?? item.measurements ?? []), { label: '', value: 0, unit: '' }]; handleFieldChange('measurements', ms) }} className="mt-2 text-xs font-medium text-[#3D7A52] hover:bg-[#E8F5E9] px-3 py-1.5 rounded-full transition-colors">
+              + Adicionar Medição
+            </button>
+          )}
+        </div>
+
+        <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 border border-transparent hover:border-[#EEEEEE] transition-colors md:col-span-2">
+          <div className="flex items-center gap-2 mb-5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-[#3D7A52]">
+              <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5C15 6.10457 14.1046 7 13 7H11C9.89543 7 9 6.10457 9 5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <h2 className="text-[11px] font-bold text-[#3D7A52] uppercase tracking-widest">Determinações</h2>
+          </div>
+          {(editing ? (formData.determinations ?? item.determinations ?? []) : (item.determinations ?? [])).length === 0 && !editing && (
+            <p className="text-sm text-[#AAAAAA] italic">Nenhuma determinação registrada.</p>
+          )}
+          {(editing ? (formData.determinations ?? item.determinations ?? []) : (item.determinations ?? [])).map((d, i) => (
+            <div key={i} className="mb-3 p-3 rounded-[12px] bg-[#FAFAFA] border border-[#EEEEEE]">
+              {editing ? (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input value={d.scientificName} onChange={e => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds[i] = { ...ds[i], scientificName: e.target.value }; handleFieldChange('determinations', ds) }} placeholder="Nome Científico" className="flex-1 px-3 py-2 rounded-[10px] bg-white text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                    <input value={d.family ?? ''} onChange={e => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds[i] = { ...ds[i], family: e.target.value }; handleFieldChange('determinations', ds) }} placeholder="Família" className="w-32 px-3 py-2 rounded-[10px] bg-white text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                  </div>
+                  <div className="flex gap-2">
+                    <input value={d.determinedBy} onChange={e => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds[i] = { ...ds[i], determinedBy: e.target.value }; handleFieldChange('determinations', ds) }} placeholder="Determinado por" className="flex-1 px-3 py-2 rounded-[10px] bg-white text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                    <input type="date" value={d.determinedAt ? d.determinedAt.split('T')[0] : ''} onChange={e => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds[i] = { ...ds[i], determinedAt: e.target.value }; handleFieldChange('determinations', ds) }} className="w-40 px-3 py-2 rounded-[10px] bg-white text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                    <button onClick={() => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds.splice(i, 1); handleFieldChange('determinations', ds) }} className="text-[#E53935] hover:bg-[#FFEBEE] rounded-full p-1"><X size={14} /></button>
+                  </div>
+                  <input value={d.notes ?? ''} onChange={e => { const ds = [...(formData.determinations ?? item.determinations ?? [])]; ds[i] = { ...ds[i], notes: e.target.value }; handleFieldChange('determinations', ds) }} placeholder="Notas" className="w-full px-3 py-2 rounded-[10px] bg-white text-sm border-2 border-transparent focus:border-[#3D7A52] outline-none" />
+                </div>
+              ) : (
+                <div>
+                  <p className="text-sm font-medium text-[#1C1B1F] italic">{d.scientificName}</p>
+                  {d.family && <p className="text-xs text-[#6D4C41]">{d.family}</p>}
+                  <p className="text-xs text-[#9E9E9E] mt-1">por {d.determinedBy}{d.determinedAt ? ` em ${new Date(d.determinedAt).toLocaleDateString('pt-BR')}` : ''}</p>
+                  {d.notes && <p className="text-xs text-[#49454F] mt-1">{d.notes}</p>}
+                </div>
+              )}
+            </div>
+          ))}
+          {editing && (
+            <button onClick={() => { const ds = [...(formData.determinations ?? item.determinations ?? []), { scientificName: '', determinedBy: '', determinedAt: new Date().toISOString(), family: '', notes: '', basis: '' }]; handleFieldChange('determinations', ds) }} className="mt-2 text-xs font-medium text-[#3D7A52] hover:bg-[#E8F5E9] px-3 py-1.5 rounded-full transition-colors">
+              + Adicionar Determinação
+            </button>
           )}
         </div>
 
