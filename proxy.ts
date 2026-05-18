@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const AUTH_PATHS = ['/login', '/register']
 const PUBLIC_PREFIXES = ['/_next', '/favicon.ico', '/public']
+const PUBLIC_EXACT = ['/']
 
 /**
  * UI-level route guard.
@@ -25,6 +26,16 @@ export function proxy(request: NextRequest): NextResponse {
 
   const hasSession = request.cookies.has('has_session')
 
+  const isExactPublic = PUBLIC_EXACT.includes(pathname)
+  if (isExactPublic) {
+    if (hasSession) {
+      const dashboardUrl = request.nextUrl.clone()
+      dashboardUrl.pathname = '/dashboard'
+      return NextResponse.redirect(dashboardUrl)
+    }
+    return NextResponse.next()
+  }
+
   if (!hasSession && !isAuthPath) {
     const loginUrl = request.nextUrl.clone()
     loginUrl.pathname = '/login'
@@ -33,7 +44,7 @@ export function proxy(request: NextRequest): NextResponse {
 
   if (hasSession && isAuthPath) {
     const dashboardUrl = request.nextUrl.clone()
-    dashboardUrl.pathname = '/'
+    dashboardUrl.pathname = '/dashboard'
     return NextResponse.redirect(dashboardUrl)
   }
 
