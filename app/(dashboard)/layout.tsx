@@ -4,10 +4,23 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import { useEffect } from 'react'
-import { Users } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { RefreshCw, Search, ShieldCheck, UserCircle, Users } from 'lucide-react'
 import clsx from 'clsx'
 
-const NAV_TOP_ITEMS = [
+type NavItem = {
+  href: string
+  label: string
+  icon: ReactNode
+  adminOnly?: boolean
+}
+
+type NavGroup = {
+  label: string
+  items: NavItem[]
+}
+
+const NAV_TOP_ITEMS: NavItem[] = [
   {
     href: '/dashboard',
     label: 'Painel',
@@ -20,9 +33,20 @@ const NAV_TOP_ITEMS = [
       </svg>
     ),
   },
+  {
+    href: '/admin',
+    label: 'Admin',
+    adminOnly: true,
+    icon: <ShieldCheck className="w-5 h-5" />,
+  },
+  {
+    href: '/profile',
+    label: 'Perfil',
+    icon: <UserCircle className="w-5 h-5" />,
+  },
 ]
 
-const NAV_GROUPS = [
+const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Coleções',
     items: [
@@ -56,6 +80,11 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: '/sync',
+        label: 'Sync',
+        icon: <RefreshCw className="w-5 h-5" />,
+      },
     ]
   },
   {
@@ -71,6 +100,11 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: '/taxa',
+        label: 'Taxa',
+        icon: <Search className="w-5 h-5" />,
+      },
     ]
   },
   {
@@ -79,6 +113,7 @@ const NAV_GROUPS = [
       {
         href: '/users',
         label: 'Usuários',
+        adminOnly: true,
         icon: <Users className="w-5 h-5" />,
       },
     ]
@@ -89,6 +124,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const { user, loading, logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+  const isAdmin = user?.role === 'admin'
 
   useEffect(() => {
     if (!loading && !user) {
@@ -127,7 +163,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
           <div className="space-y-1">
-            {NAV_TOP_ITEMS.map(item => {
+            {NAV_TOP_ITEMS.filter(item => !item.adminOnly || isAdmin).map(item => {
               const active = pathname === item.href
               return (
                 <Link
@@ -156,7 +192,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 {group.label}
               </h3>
               <div className="space-y-1">
-                {group.items.map(item => {
+                {group.items.filter(item => !item.adminOnly || isAdmin).map(item => {
                   const active = pathname.startsWith(item.href)
                   return (
                     <Link
@@ -183,7 +219,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         <div className="p-4 border-t border-[#F0F0F0] bg-white">
-          <div className="flex items-center gap-3 p-2 mb-2 rounded-[12px] hover:bg-[#F5F5F5] transition-colors cursor-pointer">
+          <Link href="/profile" className="flex items-center gap-3 p-2 mb-2 rounded-[12px] hover:bg-[#F5F5F5] transition-colors cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[#3D7A52] text-sm font-bold shadow-sm">
               {user.name?.charAt(0).toUpperCase() ?? 'U'}
             </div>
@@ -191,7 +227,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <p className="text-sm font-semibold text-[#1C1B1F] truncate">{user.name}</p>
               <p className="text-xs text-[#9E9E9E] truncate">{user.email}</p>
             </div>
-          </div>
+          </Link>
           <button
             onClick={() => logout().then(() => router.replace('/login'))}
             className="w-full flex items-center gap-3 px-4 py-2.5 rounded-full text-sm font-medium text-[#49454F] hover:bg-[#FFEBEE] hover:text-[#E53935] transition-colors"

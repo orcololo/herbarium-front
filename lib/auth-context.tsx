@@ -11,6 +11,8 @@ interface AuthState {
 interface AuthContextValue extends AuthState {
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string, institution?: string) => Promise<void>
+  refreshUser: () => Promise<User>
+  updateProfile: (data: { name?: string; email?: string; institution?: string; avatar?: string }) => Promise<User>
   logout: () => Promise<void>
 }
 
@@ -49,6 +51,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setState({ user, loading: false })
   }, [])
 
+  const refreshUser = useCallback(async () => {
+    const user = await api.auth.me()
+    setState({ user, loading: false })
+    return user
+  }, [])
+
+  const updateProfile = useCallback(async (data: { name?: string; email?: string; institution?: string; avatar?: string }) => {
+    const user = await api.users.updateProfile(data)
+    setState({ user, loading: false })
+    return user
+  }, [])
+
   const logout = useCallback(async () => {
     await api.auth.logout().catch(() => {})
     localStorage.removeItem('access_token')
@@ -57,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
+    <AuthContext.Provider value={{ ...state, login, register, refreshUser, updateProfile, logout }}>
       {children}
     </AuthContext.Provider>
   )

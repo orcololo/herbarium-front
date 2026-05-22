@@ -17,13 +17,18 @@ export interface AuthTokens {
   accessToken: string
 }
 
+export type UserRole = 'admin' | 'researcher' | 'collector'
+
 export interface User {
   id: string
   email: string
   name: string
-  role?: string
+  role?: UserRole
   avatar?: string
   institution?: string
+  isActive?: boolean
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface Species {
@@ -94,7 +99,16 @@ export interface ImageRef {
   thumbnailUrl: string
 }
 
-export type UploadResult = ImageRef
+export interface UploadResult extends ImageRef {
+  originalUrl?: string
+}
+
+interface BackendUploadResult {
+  key: string
+  thumbnailKey: string
+  originalUrl: string
+  thumbnailUrl: string
+}
 
 export interface PhotoMetadata {
   exifDataJson?: string
@@ -218,6 +232,16 @@ export interface PaginatedResponse<T> {
   limit: number
 }
 
+interface BackendPaginatedResponse<T> {
+  data: T[]
+  meta: {
+    total: number
+    page: number
+    limit: number
+    totalPages?: number
+  }
+}
+
 export interface CreateRegistryPayload {
   uuid: string
   registryIdentifier: string
@@ -300,6 +324,68 @@ export interface CreateSpeciesPayload {
   species?: string
   category?: PlantCategory
   description?: string
+}
+
+export interface CreateUserPayload {
+  name: string
+  email: string
+  password: string
+  role?: UserRole
+  institution?: string
+}
+
+export interface UpdateProfilePayload {
+  name?: string
+  email?: string
+  institution?: string
+  avatar?: string
+}
+
+export interface TaxonSuggestion {
+  id: string
+  name: string
+  author?: string
+  family?: string
+  status: 'accepted' | 'synonym'
+  rank?: string
+}
+
+export interface SyncItemResult {
+  uuid: string
+  status: 'created' | 'updated' | 'conflict' | 'error' | 'forbidden'
+  serverId?: string
+  syncVersion?: number
+  message?: string
+  serverData?: Record<string, unknown>
+}
+
+export interface SyncPushPayload {
+  deviceId: string
+  registries?: Array<Partial<CreateRegistryPayload> & {
+    uuid: string
+    syncVersion?: number
+    localModifiedAt?: string
+    images?: ImageRef[]
+  }>
+  sessions?: Array<Partial<CreateSessionPayload> & {
+    uuid: string
+    syncVersion?: number
+    localModifiedAt?: string
+  }>
+}
+
+export interface SyncPushResponse {
+  registries: SyncItemResult[]
+  sessions: SyncItemResult[]
+  syncedAt: string
+}
+
+export interface SyncPullResponse {
+  registries: Registry[]
+  sessions: CollectionSession[]
+  syncedAt: string
+  hasMore: boolean
+  lastUpdatedAt?: string
 }
 
 export class ApiError extends Error {
@@ -399,6 +485,53 @@ async function request<T>(
   return envelope as T
 }
 
+function normalizePaginated<T>(response: PaginatedResponse<T> | BackendPaginatedResponse<T>): PaginatedResponse<T> {
+  if ('meta' in response) {
+    return {
+      data: response.data,
+      total: response.meta.total,
+      page: response.meta.page,
+      limit: response.meta.limit,
+    }
+  }
+  return response
+}
+
+function normalizeUpload(result: UploadResult | BackendUploadResult): UploadResult {
+  return {
+    key: result.key,
+    url: 'url' in result ? result.url : result.originalUrl,
+    thumbnailKey: result.thumbnailKey,
+    thumbnailUrl: result.thumbnailUrl,
+    originalUrl: 'originalUrl' in result ? result.originalUrl : result.url,
+  }
+}
+
+async function uploadFile(path: string, file: File): Promise<UploadResult> {
+  const token = getAccessToken()
+  const formData = new FormData()
+  formData.append('file', file)
+  const headers: Record<string, string> = {}
+  if (token) headers['Authorization'] = `Bearer ${token}`
+  const res = await fetch(`${BASE_URL}${path}`, {
+    method: 'POST',
+    headers,
+    credentials: 'include',
+    body: formData,
+  })
+  if (!res.ok) {
+    let message = res.statusText
+    try {
+      const body = await res.json() as { message?: string }
+      message = body.message ?? message
+    } catch { /* ignore */ }
+    throw new ApiError(res.status, message)
+  }
+  const envelope = await res.json() as { success?: boolean; data?: UploadResult | BackendUploadResult } | UploadResult | BackendUploadResult
+  const data = 'success' in envelope && envelope.success ? envelope.data : envelope
+  return normalizeUpload(data as UploadResult | BackendUploadResult)
+}
+
 export const api = {
   auth: {
     login: async (email: string, password: string): Promise<AuthTokens & { user: User }> => {
@@ -452,7 +585,8 @@ export const api = {
       if (params?.isDraft !== undefined) q.set('isDraft', String(params.isDraft))
       if (params?.sortBy)    q.set('sortBy',    params.sortBy)
       if (params?.sortOrder) q.set('sortOrder', params.sortOrder)
-      return request<PaginatedResponse<Registry>>(`/registries?${q.toString()}`)
+      return request<PaginatedResponse<Registry> | BackendPaginatedResponse<Registry>>(`/registries?${q.toString()}`)
+        .then(normalizePaginated)
     },
     get: (id: string) => request<Registry>(`/registries/${id}`),
     create: (data: CreateRegistryPayload) =>
@@ -475,7 +609,8 @@ export const api = {
       if (params?.limit) q.set('limit', String(params.limit))
       if (params?.search) q.set('search', params.search)
       if (params?.isArchived !== undefined) q.set('isArchived', String(params.isArchived))
-      return request<PaginatedResponse<CollectionSession>>(`/sessions?${q.toString()}`)
+      return request<PaginatedResponse<CollectionSession> | BackendPaginatedResponse<CollectionSession>>(`/sessions?${q.toString()}`)
+        .then(normalizePaginated)
     },
     get: (id: string) => request<CollectionSession>(`/sessions/${id}`),
     create: (data: CreateSessionPayload) =>
@@ -497,7 +632,8 @@ export const api = {
       if (params?.page)   q.set('page',   String(params.page))
       if (params?.limit)  q.set('limit',  String(params.limit))
       if (params?.search) q.set('search', params.search)
-      return request<PaginatedResponse<Species>>(`/species?${q.toString()}`)
+      return request<PaginatedResponse<Species> | BackendPaginatedResponse<Species>>(`/species?${q.toString()}`)
+        .then(normalizePaginated)
     },
     get: (id: string) => request<Species>(`/species/${id}`),
     create: (data: CreateSpeciesPayload) =>
@@ -510,44 +646,64 @@ export const api = {
         method: 'PATCH',
         body: JSON.stringify(data),
       }),
+    delete: (id: string) => request<void>(`/species/${id}`, { method: 'DELETE' }),
   },
 
   users: {
-    list: (params?: { page?: number; limit?: number }) => {
+    list: (params?: { page?: number; limit?: number; search?: string; role?: UserRole }) => {
       const q = new URLSearchParams()
       if (params?.page)  q.set('page',  String(params.page))
       if (params?.limit) q.set('limit', String(params.limit))
-      return request<PaginatedResponse<User>>(`/users?${q.toString()}`)
+      if (params?.search) q.set('search', params.search)
+      if (params?.role) q.set('role', params.role)
+      return request<PaginatedResponse<User> | BackendPaginatedResponse<User>>(`/users?${q.toString()}`)
+        .then(normalizePaginated)
     },
+    create: (data: CreateUserPayload) =>
+      request<User>('/users', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
     get: (id: string) => request<User>(`/users/${id}`),
     update: (id: string, data: Partial<User>) =>
       request<User>(`/users/${id}`, {
         method: 'PATCH',
         body: JSON.stringify(data),
       }),
+    updateProfile: (data: UpdateProfilePayload) =>
+      request<User>('/users/profile', {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }),
     delete: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
   },
 
-  upload: {
-    image: async (file: File): Promise<UploadResult> => {
-      const token = getAccessToken()
-      const formData = new FormData()
-      formData.append('file', file)
-      const headers: Record<string, string> = {}
-      if (token) headers['Authorization'] = `Bearer ${token}`
-      const res = await fetch(`${BASE_URL}/upload/image`, {
-        method: 'POST',
-        headers,
-        credentials: 'include',
-        body: formData,
-      })
-      if (!res.ok) {
-        let message = res.statusText
-        try { const body = await res.json(); message = body.message ?? message } catch {}
-        throw new ApiError(res.status, message)
-      }
-      const envelope = await res.json()
-      return envelope.success ? envelope.data : envelope
+  taxa: {
+    search: (params: { q: string; limit?: number }) => {
+      const q = new URLSearchParams()
+      q.set('q', params.q)
+      if (params.limit) q.set('limit', String(params.limit))
+      return request<TaxonSuggestion[]>(`/taxa/search?${q.toString()}`)
     },
+  },
+
+  sync: {
+    pull: (params?: { since?: string; limit?: number }) => {
+      const q = new URLSearchParams()
+      if (params?.since) q.set('since', params.since)
+      if (params?.limit) q.set('limit', String(params.limit))
+      const suffix = q.toString() ? `?${q.toString()}` : ''
+      return request<SyncPullResponse>(`/sync/pull${suffix}`)
+    },
+    push: (data: SyncPushPayload) =>
+      request<SyncPushResponse>('/sync/push', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
+  },
+
+  upload: {
+    image: (file: File): Promise<UploadResult> => uploadFile('/upload/image', file),
+    audio: (file: File): Promise<UploadResult> => uploadFile('/upload/audio', file),
   },
 }

@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { api, type Species, type PlantCategory } from '@/lib/api'
+import { useAuth } from '@/lib/auth-context'
+import { Trash2 } from 'lucide-react'
 import clsx from 'clsx'
 
 const PLANT_CATEGORIES: PlantCategory[] = [
@@ -32,6 +34,8 @@ type FormData = {
 
 export default function SpeciesDetailPage() {
   const params = useParams()
+  const router = useRouter()
+  const { user } = useAuth()
   const id = params.id as string
 
   const [item, setItem] = useState<Species | null>(null)
@@ -40,6 +44,8 @@ export default function SpeciesDetailPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   const [formData, setFormData] = useState<FormData>({
     scientificName: '',
@@ -127,6 +133,18 @@ export default function SpeciesDetailPage() {
     }
   }
 
+  const handleDelete = async () => {
+    setDeleting(true)
+    setSaveError(null)
+    try {
+      await api.species.delete(id)
+      router.replace('/species')
+    } catch {
+      setSaveError('Falha ao remover espécie.')
+      setDeleting(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto animate-fade-in space-y-6">
@@ -203,13 +221,34 @@ export default function SpeciesDetailPage() {
           </div>
         </div>
         {!editing && (
-          <button
-            onClick={() => setEditing(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#E8F5E9] text-[#3D7A52] text-xs font-medium hover:bg-[#C8E6C9] transition-colors"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5l13.732-13.732z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            Editar
-          </button>
+          <div className="flex items-center gap-2">
+            {user?.role === 'admin' && (
+              deleteConfirm ? (
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFEBEE] text-[#C62828] text-xs font-medium hover:bg-[#FFCDD2] transition-colors disabled:opacity-60"
+                >
+                  Confirmar
+                </button>
+              ) : (
+                <button
+                  onClick={() => setDeleteConfirm(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#FFCDD2] text-[#C62828] text-xs font-medium hover:bg-[#FFEBEE] transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Remover
+                </button>
+              )
+            )}
+            <button
+              onClick={() => setEditing(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#E8F5E9] text-[#3D7A52] text-xs font-medium hover:bg-[#C8E6C9] transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5l13.732-13.732z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Editar
+            </button>
+          </div>
         )}
       </header>
 
