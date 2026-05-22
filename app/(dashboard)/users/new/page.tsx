@@ -46,7 +46,7 @@ export default function NewUserPage() {
 
   if (user?.role !== 'admin') {
     return (
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
         <ShieldCheck className="w-10 h-10 text-[#9E9E9E] mx-auto mb-3" />
         <h1 className="text-xl font-bold text-[#1C1B1F]">Acesso restrito</h1>
         <p className="text-sm text-[#49454F] mt-2">Novos usuários podem ser criados apenas por administradores.</p>
@@ -72,31 +72,31 @@ export default function NewUserPage() {
       </header>
 
       {error && (
-        <div className="bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] text-sm border border-[#FFCDD2]">
+        <div className="bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl text-sm border border-[#FFCDD2]">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 space-y-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nome</span>
-            <input required value={name} onChange={event => setName(event.target.value)} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input required value={name} onChange={event => setName(event.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">E-mail</span>
-            <input type="email" required value={email} onChange={event => setEmail(event.target.value)} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input type="email" required value={email} onChange={event => setEmail(event.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Senha inicial</span>
-            <input type="password" required minLength={8} value={password} onChange={event => setPassword(event.target.value)} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input type="password" required minLength={8} value={password} onChange={event => setPassword(event.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Função</span>
-            <select value={role} onChange={event => setRole(event.target.value as UserRole)} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors">
+            <select value={role} onChange={event => setRole(event.target.value as UserRole)} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors">
               {ROLE_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
             </select>
           </label>
@@ -104,7 +104,7 @@ export default function NewUserPage() {
 
         <label className="block">
           <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Instituição</span>
-          <input value={institution} onChange={event => setInstitution(event.target.value)} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+          <input value={institution} onChange={event => setInstitution(event.target.value)} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
         </label>
 
         <div className="flex items-center justify-end gap-3 pt-2">

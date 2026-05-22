@@ -36,7 +36,7 @@ export default function RegisterPage() {
 
   return (
     <div className="w-full max-w-md animate-slide-up">
-      <div className="bg-white/95 backdrop-blur-xl rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.2)] overflow-hidden border border-white/20">
+      <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.2)] overflow-hidden border border-white/20">
         <div className="px-8 pt-10 pb-5 text-center flex flex-col items-center">
           <div className="inline-flex items-center justify-center w-[64px] h-[64px] rounded-full bg-[#E8F5E9] mb-5 shadow-sm">
             <svg width="36" height="36" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,7 +60,7 @@ export default function RegisterPage() {
               required
               value={name}
               onChange={e => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
+              className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
               placeholder="Dr. Ana Ribeiro"
             />
           </div>
@@ -76,7 +76,7 @@ export default function RegisterPage() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
+              className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
               placeholder="you@example.com"
             />
           </div>
@@ -93,7 +93,7 @@ export default function RegisterPage() {
               minLength={8}
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
+              className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
               placeholder="Mín. 8 caracteres"
             />
           </div>
@@ -109,13 +109,13 @@ export default function RegisterPage() {
               autoComplete="organization"
               value={institution}
               onChange={e => setInstitution(e.target.value)}
-              className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
+              className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-[#1C1B1F] text-sm outline-none border-2 border-transparent focus:border-[#3D7A52] transition-all duration-200 placeholder:text-[#AAAAAA]"
               placeholder="Universidade ou herbário"
             />
           </div>
 
           {error && (
-            <div className="bg-[#FFEBEE] border border-[#FFCDD2] rounded-[12px] p-3 flex items-start gap-2">
+            <div className="bg-[#FFEBEE] border border-[#FFCDD2] rounded-xl p-3 flex items-start gap-2">
               <svg className="w-4 h-4 text-[#E53935] mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>

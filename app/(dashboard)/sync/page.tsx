@@ -85,7 +85,7 @@ export default function SyncPage() {
       </header>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] text-sm border border-[#FFCDD2]">
+        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl text-sm border border-[#FFCDD2]">
           <AlertTriangle className="w-4 h-4" />
           {error}
           <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
@@ -97,13 +97,13 @@ export default function SyncPage() {
           const meta = STATUS_META[status]
           const Icon = meta.icon
           return (
-            <div key={status} className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5">
+            <div key={status} className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold text-[#9E9E9E] uppercase tracking-wider">{meta.label}</p>
                   <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{counts[status]}</p>
                 </div>
-                <div className={`w-11 h-11 rounded-[12px] flex items-center justify-center ${meta.className}`}>
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${meta.className}`}>
                   <Icon className="w-5 h-5" />
                 </div>
               </div>
@@ -113,7 +113,7 @@ export default function SyncPage() {
       </div>
 
       {pullResult && (
-        <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <p className="text-xs font-bold text-[#9E9E9E] uppercase tracking-wider">Último pull</p>
             <p className="text-sm text-[#1C1B1F] mt-1">{new Date(pullResult.syncedAt).toLocaleString('pt-BR')}</p>
@@ -126,14 +126,14 @@ export default function SyncPage() {
         </div>
       )}
 
-      <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+      <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
         <div className="px-6 py-4 border-b border-[#F0F0F0] flex items-center justify-between">
           <h2 className="text-base font-semibold text-[#1C1B1F]">Registros recentes que precisam de atenção</h2>
           <span className="text-xs font-medium text-[#9E9E9E]">{attentionItems.length}</span>
         </div>
         {loading ? (
           <div className="p-6 space-y-3">
-            {Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-12 shimmer rounded-[12px]" />)}
+            {Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-12 shimmer rounded-xl" />)}
           </div>
         ) : attentionItems.length === 0 ? (
           <p className="text-sm text-[#9E9E9E] py-12 text-center">Nenhum registro pendente.</p>

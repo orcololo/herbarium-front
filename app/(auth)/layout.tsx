@@ -1,6 +1,6 @@
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1A3D27] via-[#234A30] to-[#2D5F3F] p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#1A3D27] via-[#234A30] to-[#2D5F3F] p-4 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>

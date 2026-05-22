@@ -27,7 +27,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
   }
 
   const baseBtn =
-    'flex h-8 min-w-8 items-center justify-center rounded-[8px] text-sm font-medium transition-colors duration-200'
+    'flex h-8 min-w-8 items-center justify-center rounded-lg text-sm font-medium transition-colors duration-200'
 
   return (
     <nav aria-label="Pagination" className={clsx('flex items-center gap-1', className)}>

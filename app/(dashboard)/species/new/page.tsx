@@ -83,11 +83,11 @@ export default function NewSpeciesPage() {
         Voltar para Taxonomia
       </Link>
 
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
         <h1 className="text-xl font-semibold text-[#1C1B1F] mb-6">Nova Espécie</h1>
 
         {submitError && (
-          <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">
+          <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl mb-6 text-sm border border-[#FFCDD2]">
             {submitError}
           </div>
         )}
@@ -103,7 +103,7 @@ export default function NewSpeciesPage() {
               value={form.scientificName}
               onChange={e => handleChange('scientificName', e.target.value)}
               placeholder="e.g. Quercus robur"
-              className={`w-full px-4 py-3 border rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none transition-all ${
+              className={`w-full px-4 py-3 border rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none transition-all ${
                 errors.scientificName
                   ? 'border-[#E53935] focus:ring-[#E53935] focus:border-[#E53935]'
                   : 'border-[#DDDDDD] focus:ring-[#3D7A52] focus:border-[#3D7A52]'
@@ -124,7 +124,7 @@ export default function NewSpeciesPage() {
               value={form.commonName}
               onChange={e => handleChange('commonName', e.target.value)}
               placeholder="e.g. English Oak"
-              className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
+              className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
             />
           </div>
 
@@ -139,7 +139,7 @@ export default function NewSpeciesPage() {
                 value={form.family}
                 onChange={e => handleChange('family', e.target.value)}
                 placeholder="e.g. Fagaceae"
-                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
+                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
               />
             </div>
             <div>
@@ -152,7 +152,7 @@ export default function NewSpeciesPage() {
                 value={form.genus}
                 onChange={e => handleChange('genus', e.target.value)}
                 placeholder="e.g. Quercus"
-                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
+                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
               />
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function NewSpeciesPage() {
                 value={form.species}
                 onChange={e => handleChange('species', e.target.value)}
                 placeholder="e.g. robur"
-                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
+                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all"
               />
             </div>
             <div>
@@ -179,7 +179,7 @@ export default function NewSpeciesPage() {
                 id="category"
                 value={form.category}
                 onChange={e => handleChange('category', e.target.value)}
-                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all appearance-none bg-white"
+                className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all appearance-none bg-white"
               >
                 <option value="">Selecione uma categoria...</option>
                 {CATEGORIES.map(c => (
@@ -199,7 +199,7 @@ export default function NewSpeciesPage() {
               onChange={e => handleChange('description', e.target.value)}
               placeholder="Notas adicionais sobre esta espécie..."
               rows={4}
-              className="w-full px-4 py-3 border border-[#DDDDDD] rounded-[8px] text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all resize-none"
+              className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] placeholder:text-[#AAAAAA] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all resize-none"
             />
           </div>
 

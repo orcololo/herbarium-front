@@ -23,7 +23,7 @@ function getPalette(id: string) {
 function SkeletonRow() {
   return (
     <div className="bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-5 flex items-center gap-5 border border-transparent">
-      <div className="w-12 h-12 rounded-full shimmer flex-shrink-0" />
+      <div className="w-12 h-12 rounded-full shimmer shrink-0" />
       <div className="flex-1 space-y-2.5">
         <div className="h-4 w-48 shimmer rounded-full" />
         <div className="h-3 w-32 shimmer rounded-full" />
@@ -134,7 +134,7 @@ export default function SessionsPage() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] mb-6 text-sm border border-[#FFCDD2]">
+        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl mb-6 text-sm border border-[#FFCDD2]">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5V8M8 11H8.01M2 8C2 4.686 4.686 2 8 2s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           {error}
           <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
@@ -150,7 +150,7 @@ export default function SessionsPage() {
                 'bg-white rounded-[20px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] p-5 flex items-center gap-5 border border-transparent transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] group-hover:border-[#EEEEEE]',
                 session.isArchived && 'opacity-60 grayscale-[0.5]',
               )}>
-                <div className={clsx('w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm', getPalette(session.id))}>
+                <div className={clsx('w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm', getPalette(session.id))}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
                     <path d="M16 2V6M8 2V6M3 10H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -189,7 +189,7 @@ export default function SessionsPage() {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4 flex-shrink-0">
+                <div className="flex items-center gap-4 shrink-0">
                   {session.teamMembers.length > 0 && (
                     <div className="hidden sm:flex items-center gap-1.5 bg-[#F5F5F5] px-2.5 py-1 rounded-full">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-[#9E9E9E]">
@@ -213,7 +213,7 @@ export default function SessionsPage() {
       </div>
 
       {!loading && items.length === 0 && !error && (
-        <div className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-[24px] border border-[#EEEEEE] shadow-sm mt-6">
+        <div className="flex flex-col items-center justify-center py-24 text-center bg-white rounded-3xl border border-[#EEEEEE] shadow-sm mt-6">
           <div className="relative mb-6">
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none" className="text-[#E8F5E9]">
               <circle cx="40" cy="40" r="40" fill="currentColor"/>

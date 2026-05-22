@@ -115,7 +115,7 @@ export default function UserDetailPage() {
 
   if (currentUser?.role !== 'admin') {
     return (
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
         <ShieldCheck className="w-10 h-10 text-[#9E9E9E] mx-auto mb-3" />
         <h1 className="text-xl font-bold text-[#1C1B1F]">Acesso restrito</h1>
         <p className="text-sm text-[#49454F] mt-2">Detalhes de usuários estão disponíveis apenas para administradores.</p>
@@ -127,7 +127,7 @@ export default function UserDetailPage() {
     return (
       <div className="space-y-6">
         <div className="h-8 w-28 shimmer rounded" />
-        <div className="h-80 shimmer rounded-[16px]" />
+        <div className="h-80 shimmer rounded-2xl" />
       </div>
     )
   }
@@ -138,7 +138,7 @@ export default function UserDetailPage() {
         <Link href="/users" className="inline-flex items-center gap-2 text-sm text-[#49454F] hover:text-[#1C1B1F] transition-colors">
           <ArrowLeft className="w-4 h-4" /> Voltar para Usuários
         </Link>
-        <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center">
+        <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center">
           <p className="text-[#9E9E9E]">Usuário não encontrado.</p>
         </div>
       </div>
@@ -153,7 +153,7 @@ export default function UserDetailPage() {
         <ArrowLeft className="w-4 h-4" /> Voltar para Usuários
       </Link>
 
-      <header className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 flex flex-col md:flex-row md:items-center justify-between gap-5">
+      <header className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 flex flex-col md:flex-row md:items-center justify-between gap-5">
         <div className="flex items-center gap-5 min-w-0">
           <div className="w-16 h-16 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[#3D7A52] text-xl font-bold overflow-hidden shrink-0">
             {form.avatar ? <img src={form.avatar} alt="" className="w-full h-full object-cover" /> : initials}
@@ -182,9 +182,9 @@ export default function UserDetailPage() {
         )}
       </header>
 
-      {error && <div className="bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] text-sm border border-[#FFCDD2]">{error}</div>}
+      {error && <div className="bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl text-sm border border-[#FFCDD2]">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 space-y-5">
         <div className="flex items-center gap-3 border-b border-[#F0F0F0] pb-4">
           <Shield className="w-5 h-5 text-[#3D7A52]" />
           <h2 className="text-lg font-semibold text-[#1C1B1F]">Dados da conta</h2>
@@ -193,22 +193,22 @@ export default function UserDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Nome</span>
-            <input required value={form.name} onChange={event => setForm(prev => ({ ...prev, name: event.target.value }))} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input required value={form.name} onChange={event => setForm(prev => ({ ...prev, name: event.target.value }))} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">E-mail</span>
-            <input type="email" required value={form.email} onChange={event => setForm(prev => ({ ...prev, email: event.target.value }))} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input type="email" required value={form.email} onChange={event => setForm(prev => ({ ...prev, email: event.target.value }))} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Instituição</span>
-            <input value={form.institution} onChange={event => setForm(prev => ({ ...prev, institution: event.target.value }))} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+            <input value={form.institution} onChange={event => setForm(prev => ({ ...prev, institution: event.target.value }))} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
           </label>
           <label className="block">
             <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Função</span>
-            <select value={form.role} onChange={event => setForm(prev => ({ ...prev, role: event.target.value as UserRole }))} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors">
+            <select value={form.role} onChange={event => setForm(prev => ({ ...prev, role: event.target.value as UserRole }))} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors">
               {ROLE_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
             </select>
           </label>
@@ -216,7 +216,7 @@ export default function UserDetailPage() {
 
         <label className="block">
           <span className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1.5 block">Avatar URL</span>
-          <input type="url" value={form.avatar} onChange={event => setForm(prev => ({ ...prev, avatar: event.target.value }))} className="w-full px-4 py-3 rounded-[12px] bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
+          <input type="url" value={form.avatar} onChange={event => setForm(prev => ({ ...prev, avatar: event.target.value }))} className="w-full px-4 py-3 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors" />
         </label>
 
         <div className="flex items-center justify-end gap-3 pt-2">

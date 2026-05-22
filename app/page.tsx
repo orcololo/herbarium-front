@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1A3D27] via-[#234A30] to-[#2D5F3F] relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-[#1A3D27] via-[#234A30] to-[#2D5F3F] relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>

@@ -37,13 +37,13 @@ function MetricCard({ label, value, icon, tone = 'green' }: { label: string; val
     red: 'bg-[#FFEBEE] text-[#C62828]',
   }
   return (
-    <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5">
+    <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold text-[#9E9E9E] uppercase tracking-wider">{label}</p>
           <p className="text-3xl font-bold text-[#1C1B1F] mt-1">{value}</p>
         </div>
-        <div className={`w-11 h-11 rounded-[12px] flex items-center justify-center ${tones[tone]}`}>
+        <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${tones[tone]}`}>
           {icon}
         </div>
       </div>
@@ -112,7 +112,7 @@ export default function AdminPage() {
 
   if (user?.role !== 'admin') {
     return (
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
         <ShieldCheck className="w-10 h-10 text-[#9E9E9E] mx-auto mb-3" />
         <h1 className="text-xl font-bold text-[#1C1B1F]">Acesso restrito</h1>
         <p className="text-sm text-[#49454F] mt-2">Painel disponível apenas para administradores.</p>
@@ -122,7 +122,7 @@ export default function AdminPage() {
 
   if (error) {
     return (
-      <div className="bg-[#FFEBEE] text-[#C62828] px-5 py-4 rounded-[12px] border border-[#FFCDD2] flex items-center gap-3">
+      <div className="bg-[#FFEBEE] text-[#C62828] px-5 py-4 rounded-xl border border-[#FFCDD2] flex items-center gap-3">
         <AlertTriangle className="w-5 h-5" />
         <span className="text-sm font-medium">{error}</span>
       </div>
@@ -152,12 +152,12 @@ export default function AdminPage() {
 
       {loading ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <div className="h-72 rounded-[16px] shimmer" />
-          <div className="h-72 rounded-[16px] shimmer" />
+          <div className="h-72 rounded-2xl shimmer" />
+          <div className="h-72 rounded-2xl shimmer" />
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+          <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-base font-semibold text-[#1C1B1F]">Distribuição de funções</h2>
               <Users className="w-4 h-4 text-[#3D7A52]" />
@@ -178,7 +178,7 @@ export default function AdminPage() {
             </div>
           </section>
 
-          <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+          <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-base font-semibold text-[#1C1B1F]">Saúde de sync</h2>
               <RefreshCw className="w-4 h-4 text-[#3D7A52]" />
@@ -186,7 +186,7 @@ export default function AdminPage() {
             <p className="text-xs text-[#9E9E9E] mb-4">Amostra dos 200 registros mais recentes.</p>
             <div className="grid grid-cols-2 gap-3">
               {(Object.keys(syncCounts) as Array<keyof SyncCounts>).map(status => (
-                <Link key={status} href="/sync" className="rounded-[12px] border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors">
+                <Link key={status} href="/sync" className="rounded-xl border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors">
                   <p className="text-xs font-bold text-[#9E9E9E] uppercase tracking-wider">{STATUS_LABELS[status]}</p>
                   <p className="text-2xl font-bold text-[#1C1B1F] mt-1">{syncCounts[status]}</p>
                 </Link>
@@ -194,7 +194,7 @@ export default function AdminPage() {
             </div>
           </section>
 
-          <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 lg:col-span-2">
+          <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 lg:col-span-2">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-base font-semibold text-[#1C1B1F]">Registros recentes</h2>
               <Link href="/registry" className="text-xs font-medium text-[#3D7A52] hover:underline">Ver todos</Link>
@@ -219,16 +219,16 @@ export default function AdminPage() {
             </div>
           </section>
 
-          <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 lg:col-span-2">
+          <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 lg:col-span-2">
             <div className="flex items-center gap-2 mb-5">
               <Database className="w-4 h-4 text-[#3D7A52]" />
               <h2 className="text-base font-semibold text-[#1C1B1F]">Ações rápidas</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <Link href="/users" className="rounded-[12px] border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Gerenciar usuários</Link>
-              <Link href="/species/new" className="rounded-[12px] border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Nova espécie</Link>
-              <Link href="/sync" className="rounded-[12px] border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Revisar sync</Link>
-              <Link href="/taxa" className="rounded-[12px] border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Buscar taxa</Link>
+              <Link href="/users" className="rounded-xl border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Gerenciar usuários</Link>
+              <Link href="/species/new" className="rounded-xl border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Nova espécie</Link>
+              <Link href="/sync" className="rounded-xl border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Revisar sync</Link>
+              <Link href="/taxa" className="rounded-xl border border-[#EEEEEE] p-4 hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#49454F]">Buscar taxa</Link>
             </div>
           </section>
         </div>

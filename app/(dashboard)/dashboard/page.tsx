@@ -33,7 +33,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; bar: string; label: string }
 
 function StatCardSkeleton() {
   return (
-    <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
+    <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
       <div className="flex items-center justify-between">
         <div className="space-y-3">
           <div className="h-3 w-20 bg-[#EEEEEE] rounded" />
@@ -47,7 +47,7 @@ function StatCardSkeleton() {
 
 function RecentActivitySkeleton() {
   return (
-    <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
+    <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
       <div className="h-5 w-32 bg-[#EEEEEE] rounded mb-6" />
       <div className="space-y-4">
         {Array.from({ length: 5 }).map((_, i) => (
@@ -66,7 +66,7 @@ function RecentActivitySkeleton() {
 
 function CategoriesSkeleton() {
   return (
-    <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
+    <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6 animate-pulse">
       <div className="h-5 w-48 bg-[#EEEEEE] rounded mb-6" />
       <div className="space-y-4">
         {Array.from({ length: 4 }).map((_, i) => (
@@ -177,7 +177,7 @@ export default function DashboardPage() {
           Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)
         ) : (
           <>
-            <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Espécimes</p>
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Espécies</p>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Sessões</p>
@@ -210,7 +210,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+            <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-[#9E9E9E] uppercase tracking-wide">Rascunhos</p>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
         {!recentEntries ? (
           <RecentActivitySkeleton />
         ) : (
-          <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+          <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-base font-semibold text-[#1C1B1F]">Atividade Recente</h2>
               <Link
@@ -249,9 +249,9 @@ export default function DashboardPage() {
                   <Link
                     key={entry.id}
                     href={`/registry/${entry.id}`}
-                    className="flex items-center gap-4 p-3 rounded-[12px] hover:bg-[#F5F5F5] transition-colors"
+                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-[#F5F5F5] transition-colors"
                   >
-                    <div className="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center shrink-0">
                       <Leaf className="w-4 h-4 text-[#3D7A52]" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -278,7 +278,7 @@ export default function DashboardPage() {
         {!categories ? (
           <CategoriesSkeleton />
         ) : (
-          <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
+          <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-6">
             <h2 className="text-base font-semibold text-[#1C1B1F] mb-6">Collections by Category</h2>
             {categories.length === 0 ? (
               <p className="text-sm text-[#9E9E9E] text-center py-8">No data available</p>

@@ -102,7 +102,7 @@ export default function UsersPage() {
 
   if (currentUser?.role !== 'admin') {
     return (
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-8 text-center max-w-xl mx-auto">
         <ShieldCheck className="w-10 h-10 text-[#9E9E9E] mx-auto mb-3" />
         <h1 className="text-xl font-bold text-[#1C1B1F]">Acesso restrito</h1>
         <p className="text-sm text-[#49454F] mt-2">Usuários podem ser gerenciados apenas por administradores.</p>
@@ -162,13 +162,13 @@ export default function UsersPage() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] text-sm border border-[#FFCDD2]">
+        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl text-sm border border-[#FFCDD2]">
           {error}
           <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline">Tentar novamente</button>
         </div>
       )}
 
-      <div className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px]">
             <thead>

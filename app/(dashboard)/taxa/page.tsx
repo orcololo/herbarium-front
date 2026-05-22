@@ -49,7 +49,7 @@ export default function TaxaPage() {
         </div>
       </header>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 flex flex-col md:flex-row gap-3">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 flex flex-col md:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E9E9E]" />
           <input
@@ -73,13 +73,13 @@ export default function TaxaPage() {
       </form>
 
       {error && (
-        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-[12px] text-sm border border-[#FFCDD2]">
+        <div className="flex items-center gap-3 bg-[#FFEBEE] text-[#C62828] px-4 py-3 rounded-xl text-sm border border-[#FFCDD2]">
           <AlertTriangle className="w-4 h-4" />
           {error}
         </div>
       )}
 
-      <section className="bg-white rounded-[16px] shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
+      <section className="bg-white rounded-2xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden">
         <div className="px-6 py-4 border-b border-[#F0F0F0] flex items-center justify-between">
           <h2 className="text-base font-semibold text-[#1C1B1F]">Resultados</h2>
           <span className="text-xs font-medium text-[#9E9E9E]">{results.length}</span>
@@ -87,7 +87,7 @@ export default function TaxaPage() {
 
         {loading ? (
           <div className="p-6 space-y-3">
-            {Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-16 shimmer rounded-[12px]" />)}
+            {Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-16 shimmer rounded-xl" />)}
           </div>
         ) : results.length === 0 ? (
           <p className="text-sm text-[#9E9E9E] py-14 text-center">{searched ? 'Nenhum taxon encontrado.' : 'Digite um nome científico para buscar.'}</p>

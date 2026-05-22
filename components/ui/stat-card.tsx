@@ -16,11 +16,11 @@ export function StatCard({ icon, value, label, trend, className }: StatCardProps
   return (
     <div
       className={clsx(
-        'flex items-start gap-4 rounded-[16px] bg-[#FFFFFF] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-shadow duration-200 hover:shadow-[0_2px_6px_rgba(0,0,0,0.12)]',
+        'flex items-start gap-4 rounded-2xl bg-[#FFFFFF] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-shadow duration-200 hover:shadow-[0_2px_6px_rgba(0,0,0,0.12)]',
         className
       )}
     >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-[#E8F5E9] text-[#3D7A52]">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#E8F5E9] text-[#3D7A52]">
         {icon}
       </div>
       <div className="flex flex-col gap-1">

@@ -23,7 +23,7 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
         <button
           type="button"
           onClick={action.onClick}
-          className="mt-2 rounded-[8px] bg-[#3D7A52] px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#2E5E3E] focus:outline-none focus:ring-2 focus:ring-[#3D7A52] focus:ring-offset-2"
+          className="mt-2 rounded-lg bg-[#3D7A52] px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#2E5E3E] focus:outline-none focus:ring-2 focus:ring-[#3D7A52] focus:ring-offset-2"
         >
           {action.label}
         </button>

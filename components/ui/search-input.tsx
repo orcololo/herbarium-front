@@ -51,7 +51,7 @@ export function SearchInput({
         onChange={handleChange}
         placeholder={placeholder}
         aria-label={placeholder}
-        className="w-full rounded-[8px] border border-[#DDDDDD] bg-[#FFFFFF] py-2 pl-10 pr-9 text-sm text-[#1C1B1F] placeholder-[#9E9E9E] shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-colors duration-200 focus:border-[#3D7A52] focus:outline-none focus:ring-1 focus:ring-[#3D7A52]"
+        className="w-full rounded-lg border border-[#DDDDDD] bg-[#FFFFFF] py-2 pl-10 pr-9 text-sm text-[#1C1B1F] placeholder-[#9E9E9E] shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-colors duration-200 focus:border-[#3D7A52] focus:outline-none focus:ring-1 focus:ring-[#3D7A52]"
       />
       {internal && (
         <button
