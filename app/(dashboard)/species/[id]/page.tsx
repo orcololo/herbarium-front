@@ -5,19 +5,13 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { api, type Species, type PlantCategory } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
+import {
+  isCurrentPlantCategory,
+  PLANT_CATEGORY_OPTIONS,
+  plantCategoryLabel,
+} from "@/lib/plant-categories";
 import { Trash2 } from "lucide-react";
 import clsx from "clsx";
-
-const PLANT_CATEGORIES: PlantCategory[] = [
-  "trees",
-  "shrubs",
-  "herbs",
-  "ferns",
-  "grasses",
-  "vines",
-  "cacti",
-  "aquatic",
-];
 
 function Field({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null;
@@ -65,6 +59,16 @@ export default function SpeciesDetailPage() {
     category: "",
     description: "",
   });
+  const categoryOptions =
+    formData.category && !isCurrentPlantCategory(formData.category)
+      ? [
+          ...PLANT_CATEGORY_OPTIONS,
+          {
+            value: formData.category,
+            label: plantCategoryLabel(formData.category),
+          },
+        ]
+      : PLANT_CATEGORY_OPTIONS;
 
   useEffect(() => {
     let mounted = true;
@@ -268,7 +272,7 @@ export default function SpeciesDetailPage() {
             )}
             {item.category && (
               <span className="inline-block mt-2 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2D5F3F] border border-[#C8E6C9]">
-                {item.category}
+                {plantCategoryLabel(item.category)}
               </span>
             )}
           </div>
@@ -439,9 +443,9 @@ export default function SpeciesDetailPage() {
                     className="w-full px-4 py-2.5 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
                   >
                     <option value="">Nenhuma</option>
-                    {PLANT_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c.charAt(0).toUpperCase() + c.slice(1)}
+                    {categoryOptions.map((category) => (
+                      <option key={category.value} value={category.value}>
+                        {category.label}
                       </option>
                     ))}
                   </select>
@@ -456,7 +460,7 @@ export default function SpeciesDetailPage() {
                 <Field label="Família" value={item.family} />
                 <Field label="Gênero" value={item.genus} />
                 <Field label="Epíteto Específico" value={item.species} />
-                <Field label="Categoria" value={item.category} />
+                <Field label="Categoria" value={plantCategoryLabel(item.category)} />
               </div>
             </div>
           )}

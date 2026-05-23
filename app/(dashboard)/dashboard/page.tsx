@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Leaf, FlaskConical, Calendar, FileEdit } from 'lucide-react'
 import { api, Registry, PlantCategory } from '@/lib/api'
+import { plantCategoryLabel } from '@/lib/plant-categories'
 
 interface DashboardStats {
   totalSpecimens: number
@@ -19,16 +20,29 @@ interface CategoryCount {
   color: string
 }
 
-const CATEGORY_COLORS: Record<string, { bg: string; bar: string; label: string }> = {
-  trees:    { bg: '#E8F5E9', bar: '#3D7A52', label: 'Árvores' },
-  shrubs:   { bg: '#FFF3E0', bar: '#E65100', label: 'Arbustos' },
-  herbs:    { bg: '#E1F5FE', bar: '#0288D1', label: 'Ervas' },
-  ferns:    { bg: '#F3E5F5', bar: '#7B1FA2', label: 'Samambaias' },
-  grasses:  { bg: '#F1F8E9', bar: '#558B2F', label: 'Gramíneas' },
-  vines:    { bg: '#EFEBE9', bar: '#6D4C41', label: 'Trepadeiras' },
-  cacti:    { bg: '#FBE9E7', bar: '#BF360C', label: 'Cactos' },
-  aquatic:  { bg: '#E0F7FA', bar: '#00838F', label: 'Aquáticas' },
-  uncategorized: { bg: '#F5F5F5', bar: '#9E9E9E', label: 'Sem categoria' },
+const CATEGORY_COLORS: Record<string, { bg: string; bar: string }> = {
+  samambaia: { bg: '#E0F2F1', bar: '#00796B' },
+  erva: { bg: '#E1F5FE', bar: '#0288D1' },
+  semi_arbusto: { bg: '#FFF3E0', bar: '#EF6C00' },
+  arbusto: { bg: '#E8F5E9', bar: '#388E3C' },
+  arvore: { bg: '#E8F5E9', bar: '#2D5F3F' },
+  erva_trepadeira: { bg: '#EFEBE9', bar: '#6D4C41' },
+  erva_epifita: { bg: '#E0F7FA', bar: '#00838F' },
+  hemiepifita: { bg: '#EDE7F6', bar: '#5E35B1' },
+  prostrada: { bg: '#F1F8E9', bar: '#558B2F' },
+  rastejante: { bg: '#F9FBE7', bar: '#827717' },
+  planta_rupicola: { bg: '#ECEFF1', bar: '#546E7A' },
+  ciofila: { bg: '#E8EAF6', bar: '#3949AB' },
+  epilitica: { bg: '#FBE9E7', bar: '#BF360C' },
+  trees: { bg: '#E8F5E9', bar: '#2D5F3F' },
+  shrubs: { bg: '#E8F5E9', bar: '#388E3C' },
+  herbs: { bg: '#E1F5FE', bar: '#0288D1' },
+  ferns: { bg: '#E0F2F1', bar: '#00796B' },
+  grasses: { bg: '#F1F8E9', bar: '#558B2F' },
+  vines: { bg: '#EFEBE9', bar: '#6D4C41' },
+  cacti: { bg: '#FBE9E7', bar: '#BF360C' },
+  aquatic: { bg: '#E0F7FA', bar: '#00838F' },
+  uncategorized: { bg: '#F5F5F5', bar: '#9E9E9E' },
 }
 
 function StatCardSkeleton() {
@@ -119,7 +133,7 @@ export default function DashboardPage() {
           .map(([key, count]) => ({
             category: key as PlantCategory | 'uncategorized',
             count,
-            label: CATEGORY_COLORS[key]?.label ?? key,
+            label: key === 'uncategorized' ? 'Sem categoria' : plantCategoryLabel(key),
             color: CATEGORY_COLORS[key]?.bar ?? '#9E9E9E',
           }))
           .sort((a, b) => b.count - a.count)

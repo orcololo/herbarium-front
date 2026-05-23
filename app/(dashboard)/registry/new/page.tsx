@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api, type CreateRegistryPayload } from "@/lib/api";
+import { PLANT_CATEGORY_OPTIONS } from "@/lib/plant-categories";
 import { normalizeCoCollectorsInput } from "@/lib/registry-presentation";
 import { Upload, X, ImageIcon } from "lucide-react";
 import clsx from "clsx";
@@ -450,14 +451,11 @@ export default function NewSpecimenPage() {
                     className="w-full px-4 py-2.5 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
                   >
                     <option value="">Selecionar</option>
-                    <option value="trees">Árvores</option>
-                    <option value="shrubs">Arbustos</option>
-                    <option value="herbs">Herbáceas</option>
-                    <option value="ferns">Samambaias</option>
-                    <option value="grasses">Gramíneas</option>
-                    <option value="vines">Trepadeiras</option>
-                    <option value="cacti">Cactos</option>
-                    <option value="aquatic">Aquáticas</option>
+                    {PLANT_CATEGORY_OPTIONS.map((category) => (
+                      <option key={category.value} value={category.value}>
+                        {category.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

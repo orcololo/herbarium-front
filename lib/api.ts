@@ -4,6 +4,19 @@
 const BASE_URL = "/api/v1";
 
 export type PlantCategory =
+  | "samambaia"
+  | "erva"
+  | "semi_arbusto"
+  | "arbusto"
+  | "arvore"
+  | "erva_trepadeira"
+  | "erva_epifita"
+  | "hemiepifita"
+  | "prostrada"
+  | "rastejante"
+  | "planta_rupicola"
+  | "ciofila"
+  | "epilitica"
   | "trees"
   | "shrubs"
   | "herbs"

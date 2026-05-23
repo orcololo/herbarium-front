@@ -5,17 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { api, type CreateSpeciesPayload, type PlantCategory } from '@/lib/api'
-
-const CATEGORIES: { value: PlantCategory; label: string }[] = [
-  { value: 'trees', label: 'Árvores' },
-  { value: 'shrubs', label: 'Arbustos' },
-  { value: 'herbs', label: 'Ervas' },
-  { value: 'ferns', label: 'Samambaias' },
-  { value: 'grasses', label: 'Gramíneas' },
-  { value: 'vines', label: 'Trepadeiras' },
-  { value: 'cacti', label: 'Cactos' },
-  { value: 'aquatic', label: 'Aquáticas' },
-]
+import { PLANT_CATEGORY_OPTIONS } from '@/lib/plant-categories'
 
 export default function NewSpeciesPage() {
   const router = useRouter()
@@ -182,7 +172,7 @@ export default function NewSpeciesPage() {
                 className="w-full px-4 py-3 border border-[#DDDDDD] rounded-lg text-sm text-[#1C1B1F] outline-none focus:ring-1 focus:ring-[#3D7A52] focus:border-[#3D7A52] transition-all appearance-none bg-white"
               >
                 <option value="">Selecione uma categoria...</option>
-                {CATEGORIES.map(c => (
+                {PLANT_CATEGORY_OPTIONS.map(c => (
                   <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>

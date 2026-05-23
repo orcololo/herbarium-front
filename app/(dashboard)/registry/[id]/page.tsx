@@ -7,6 +7,7 @@ import {
   type CreateRegistryPayload,
   type Registry,
   type Species,
+  type PlantCategory,
   type UpdateRegistryPayload,
   type Morphology,
   type StemMorphology,
@@ -22,6 +23,11 @@ import {
   normalizeCoCollectorsInput,
   normalizeRegistryCollectionNumber,
 } from "@/lib/registry-presentation";
+import {
+  isCurrentPlantCategory,
+  PLANT_CATEGORY_OPTIONS,
+  plantCategoryLabel,
+} from "@/lib/plant-categories";
 import Link from "next/link";
 import clsx from "clsx";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
@@ -123,6 +129,65 @@ function FieldOrInput({
         }}
         className="w-full px-4 py-2.5 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
       />
+    </div>
+  );
+}
+
+function categoryOptionsFor(value?: PlantCategory | string | null) {
+  if (value && !isCurrentPlantCategory(value)) {
+    return [
+      ...PLANT_CATEGORY_OPTIONS,
+      { value: value as PlantCategory, label: plantCategoryLabel(value) },
+    ];
+  }
+  return PLANT_CATEGORY_OPTIONS;
+}
+
+function CategoryField({
+  editing,
+  value,
+  onChange,
+}: {
+  editing: boolean;
+  value?: PlantCategory | string | null;
+  onChange: (value: PlantCategory | undefined) => void;
+}) {
+  if (!editing) {
+    return (
+      <div>
+        <div className="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">
+          Categoria
+        </div>
+        <div className="text-sm text-[#1C1B1F] font-medium">
+          {plantCategoryLabel(value)}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <label className="block text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider mb-1">
+        Categoria
+      </label>
+      <select
+        value={value ?? ""}
+        onChange={(event) =>
+          onChange(
+            event.target.value
+              ? (event.target.value as PlantCategory)
+              : undefined,
+          )
+        }
+        className="w-full px-4 py-2.5 rounded-xl bg-[#F5F5F5] text-sm text-[#1C1B1F] border-2 border-transparent focus:border-[#3D7A52] outline-none transition-colors"
+      >
+        <option value="">Sem categoria</option>
+        {categoryOptionsFor(value).map((category) => (
+          <option key={category.value} value={category.value}>
+            {category.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
@@ -709,9 +774,8 @@ export default function RegistryDetailPage() {
               }
               onChange={(v) => handleFieldChange("speciesEpithet", v)}
             />
-            <FieldOrInput
+            <CategoryField
               editing={editing}
-              label="Categoria"
               value={editing ? formData.category : speciesDetails?.category}
               onChange={(v) => handleFieldChange("category", v)}
             />

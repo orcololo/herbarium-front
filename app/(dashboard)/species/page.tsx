@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { api, type Species } from "@/lib/api";
+import { plantCategoryLabel } from "@/lib/plant-categories";
 import clsx from "clsx";
 
 function SkeletonRow() {
@@ -186,7 +187,7 @@ export default function SpeciesPage() {
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     {sp.category && (
                       <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#E8F5E9] text-[#2D5F3F] border border-[#C8E6C9]">
-                        {sp.category}
+                        {plantCategoryLabel(sp.category)}
                       </span>
                     )}
                   </div>
