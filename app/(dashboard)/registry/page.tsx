@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { api, type Registry } from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
+import { usePermissions } from "@/lib/permissions";
 import {
   getRegistryCardImage,
   getRegistryCoCollectorsDisplay,
@@ -52,6 +54,9 @@ export default function RegistryPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const sessionId = searchParams.get("sessionId") ?? undefined;
+  const { user } = useAuth();
+  const { canViewAllRegistries } = usePermissions();
+  const [viewMode, setViewMode] = useState<"my" | "all">("my");
 
   const [items, setItems] = useState<Registry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,11 +76,15 @@ export default function RegistryPage() {
     setLoading(true);
     setError(null);
     try {
+      // Authorization: Collectors see only their own registries
+      // Admins/Researchers can see all
+      const collector = canViewAllRegistries && viewMode === "all" ? undefined : "me";
       const res = await api.registry.list({
         page,
         limit: LIMIT,
         search: debouncedSearch || undefined,
         sessionId,
+        collector,
       });
       setItems(res.data);
       setTotal(res.total);
@@ -84,7 +93,7 @@ export default function RegistryPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, debouncedSearch, sessionId]);
+  }, [page, debouncedSearch, sessionId, canViewAllRegistries, viewMode]);
 
   useEffect(() => {
     load();
@@ -112,6 +121,32 @@ export default function RegistryPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          {canViewAllRegistries && (
+            <div className="flex items-center bg-white rounded-full border border-[#EEEEEE] shadow-sm overflow-hidden">
+              <button
+                onClick={() => setViewMode("my")}
+                className={clsx(
+                  "px-4 py-1.5 text-sm font-medium transition-colors",
+                  viewMode === "my"
+                    ? "bg-[#3D7A52] text-white"
+                    : "text-[#49454F] hover:bg-gray-50"
+                )}
+              >
+                Meus
+              </button>
+              <button
+                onClick={() => setViewMode("all")}
+                className={clsx(
+                  "px-4 py-1.5 text-sm font-medium transition-colors",
+                  viewMode === "all"
+                    ? "bg-[#3D7A52] text-white"
+                    : "text-[#49454F] hover:bg-gray-50"
+                )}
+              >
+                Todos
+              </button>
+            </div>
+          )}
           <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-[#EEEEEE] shadow-sm">
             <div className="w-2 h-2 rounded-full bg-[#4CAF50]"></div>
             <span className="text-xs font-medium text-[#49454F]">

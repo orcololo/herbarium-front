@@ -36,7 +36,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role?: UserRole;
+  role: "admin" | "researcher" | "collector";
   avatar?: string;
   institution?: string;
   isActive?: boolean;
@@ -668,10 +668,11 @@ export const api = {
     list: (params?: {
       page?: number;
       limit?: number;
+      collector?: "me" | string;
       sessionId?: string;
-      search?: string;
-      collector?: string;
+      speciesId?: string;
       isDraft?: boolean;
+      search?: string;
       sortBy?: string;
       sortOrder?: "asc" | "desc";
     }) => {
@@ -679,6 +680,7 @@ export const api = {
       if (params?.page) q.set("page", String(params.page));
       if (params?.limit) q.set("limit", String(params.limit));
       if (params?.sessionId) q.set("sessionId", params.sessionId);
+      if (params?.speciesId) q.set("speciesId", params.speciesId);
       if (params?.search) q.set("search", params.search);
       if (params?.collector) q.set("collector", params.collector);
       if (params?.isDraft !== undefined)
